@@ -3,10 +3,10 @@ import type { ProgrammeSlot } from './types'
 /**
  * Running order for Saturday 3 October 2026.
  *
- * Still a working draft: only the 08:30 keynote and the 10:45 guest session are
- * confirmed, and the page says so rather than implying a settled schedule.
+ * Set `programmeIsDraft` to true to show a dashed "DRAFT" caveat above the
+ * timeline — useful while the schedule is still moving.
  */
-export const programmeIsDraft = true
+export const programmeIsDraft: boolean = false
 
 export const programmeDraftNote =
   'Running order is a placeholder built around the two confirmed sessions.'

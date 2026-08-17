@@ -236,8 +236,12 @@ export function SiteHeader() {
 
 /** Hamburger that morphs into a close cross. */
 function MenuToggle({ open, onToggle }: { open: boolean; onToggle: () => void }) {
+  // `top: 0` is load-bearing: without it the bars fall back to their static
+  // position near the button's text baseline and bunch up at the bottom, so the
+  // offsets below are measured from a known origin instead.
   const bar = (transform: string): React.CSSProperties => ({
     position: 'absolute',
+    top: 0,
     left: 10,
     width: 22,
     height: 2,
