@@ -187,11 +187,10 @@ export const panelNote =
 const PANEL_IMAGE_HEIGHT = 360
 
 /**
- * The announced panelists.
+ * The three announced panelists, each with the role from their reveal flier.
  *
- * Only Abasiekeme Umana's role has been published so far; the rest carry a name
- * and a portrait with no specialism, rather than a guessed one. The moderator has
- * not been identified, so all are billed as PANELIST.
+ * The moderator has not been named, so all three are billed as PANELIST rather
+ * than one being guessed into the chair.
  */
 export const panelists: SpeakerCard[] = [
   {
@@ -208,13 +207,16 @@ export const panelists: SpeakerCard[] = [
     imageHeight: PANEL_IMAGE_HEIGHT,
   },
   {
-    id: 'emediong-edem',
+    id: 'rejoice-madara',
     eyebrow: 'PANELIST',
-    name: 'Emediong Edem',
+    // Her headshot arrived filed as "REJOICE EKEMINI" but her panelist reveal
+    // flier bills her as Rejoice Madara, so the flier wins — see README.
+    name: 'Rejoice Madara',
+    detail: 'Creative director, Elysian Planet',
     accent: 'lime',
     portrait: {
-      src: '/assets/panelist-emediong-edem.jpg',
-      thumb: '/assets/sm/panelist-emediong-edem.jpg',
+      src: '/assets/panelist-rejoice-madara.jpg',
+      thumb: '/assets/sm/panelist-rejoice-madara.jpg',
       objectPosition: 'center 18%',
     },
     imageHeight: PANEL_IMAGE_HEIGHT,
@@ -222,7 +224,8 @@ export const panelists: SpeakerCard[] = [
   {
     id: 'ima-akpan',
     eyebrow: 'PANELIST',
-    name: 'Ima Akpan',
+    name: 'Ms. Ima Akpan',
+    detail: 'Director, Aimas R-Firm',
     accent: 'lime',
     portrait: {
       src: '/assets/panelist-ima-akpan.jpg',
@@ -234,17 +237,39 @@ export const panelists: SpeakerCard[] = [
 ]
 
 /**
- * The fireside chat line-up.
- *
- * Billed uniformly as FIRESIDE CHAT: who hosts and who guests has not been
- * published, so the cards do not assert it. Session times are left off for the
- * same reason — the 13:00 / 16:15 slots in the original design were placeholders.
+ * The fireside chat's own topic, printed on each fireside reveal flier. (The
+ * fliers label it "Panel Topic", but it is distinct from the panel's.)
+ */
+export const firesideTopic =
+  '“Power UP — Africa’s Youth Skills, Startups and Wealth Creation.”'
+
+export const firesideNote =
+  'Two chairs, no slides, 30 minutes. Held in the media and interview lounge.'
+
+/**
+ * The four announced fireside chat names, each with the role from their reveal
+ * flier. Who hosts and who guests has not been published, so all four are billed
+ * uniformly as FIRESIDE CHAT rather than one being guessed into the host's chair.
  */
 export const firesideGuests: SpeakerCard[] = [
+  {
+    id: 'emediong-edem',
+    eyebrow: 'FIRESIDE CHAT',
+    name: 'Emediong Edem',
+    detail: 'Book publishing consultant',
+    accent: 'amber',
+    portrait: {
+      src: '/assets/fireside-emediong-edem.jpg',
+      thumb: '/assets/sm/fireside-emediong-edem.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
+  },
   {
     id: 'miracle-edet',
     eyebrow: 'FIRESIDE CHAT',
     name: 'Miracle Edet',
+    detail: 'AI creator · Designer',
     accent: 'amber',
     portrait: {
       src: '/assets/fireside-miracle-edet.jpg',
@@ -254,25 +279,15 @@ export const firesideGuests: SpeakerCard[] = [
     imageHeight: PANEL_IMAGE_HEIGHT,
   },
   {
-    id: 'rejoice-ekemini',
+    id: 'saviour-udoh',
     eyebrow: 'FIRESIDE CHAT',
-    name: 'Rejoice Ekemini',
+    // Flier spells it "Udoh"; the supplied image file said "UDO".
+    name: 'Saviour Udoh',
+    detail: 'CEO, Sinzu Consult Ltd & KJ2 Energy Resources Ltd',
     accent: 'amber',
     portrait: {
-      src: '/assets/fireside-rejoice-ekemini.jpg',
-      thumb: '/assets/sm/fireside-rejoice-ekemini.jpg',
-      objectPosition: 'center 18%',
-    },
-    imageHeight: PANEL_IMAGE_HEIGHT,
-  },
-  {
-    id: 'saviour-udo',
-    eyebrow: 'FIRESIDE CHAT',
-    name: 'Saviour Udo',
-    accent: 'amber',
-    portrait: {
-      src: '/assets/fireside-saviour-udo.jpg',
-      thumb: '/assets/sm/fireside-saviour-udo.jpg',
+      src: '/assets/fireside-saviour-udoh.jpg',
+      thumb: '/assets/sm/fireside-saviour-udoh.jpg',
       objectPosition: 'center 18%',
     },
     imageHeight: PANEL_IMAGE_HEIGHT,
@@ -280,8 +295,8 @@ export const firesideGuests: SpeakerCard[] = [
   {
     id: 'utonne-ekefre',
     eyebrow: 'FIRESIDE CHAT',
-    // TODO: supplied as "UTONNE"; surname taken from the bio PDF in the uploads.
     name: 'Utonne Ekefre',
+    detail: 'CEO, Latonne Signature Shoes',
     accent: 'amber',
     portrait: {
       src: '/assets/fireside-utonne-ekefre.jpg',

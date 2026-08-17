@@ -1,48 +1,18 @@
 import { useEffect } from 'react'
 import type { RefObject } from 'react'
 import * as THREE from 'three'
+import { AFRICA, MADAGASCAR, inside } from '../lib/africa'
 
 /**
  * Africa, as a point cloud on a slowly turning globe.
  *
  * Ported from the design's `initGlobe`. Rather than load a GeoJSON continent
- * outline, the original carries a hand-simplified Africa polygon inline and
- * rejection-samples a lat/long grid against it — every 0.6° cell whose jittered
- * centre falls inside the outline becomes one gold dot, with roughly one in
- * eight promoted to a larger lime accent dot. Cheap, no network fetch, and the
- * jitter keeps it from reading as a grid.
- *
- * Coordinates are [longitude, latitude] in degrees.
+ * outline, it rejection-samples a lat/long grid against the inline polygon in
+ * shared/lib/africa.ts — every 0.6° cell whose jittered centre falls inside the
+ * outline becomes one gold dot, with roughly one in eight promoted to a larger
+ * lime accent dot. Cheap, no network fetch, and the jitter keeps it from reading
+ * as a grid.
  */
-const AFRICA: ReadonlyArray<readonly [number, number]> = [
-  [-17, 14.7], [-16, 12], [-13, 8], [-9, 5], [-5, 4.5], [0, 5.5], [3, 6.4],
-  [6, 4.3], [9, 4], [9.5, 2], [11, -2], [12, -5], [13, -8], [12, -13],
-  [12, -17], [14, -22], [15, -27], [18, -32], [20, -34.8], [25, -34],
-  [29, -31], [32, -28.5], [35, -24], [37, -17], [40, -15], [40, -10],
-  [39, -6], [41, -2], [43, 0], [48, 2], [51, 11], [48, 12], [44, 12],
-  [43, 11.5], [40, 15], [38, 18], [37, 22], [34, 28], [33, 31], [25, 32],
-  [20, 31], [15, 31.5], [10, 34], [3, 36.5], [-2, 35.5], [-6, 35.5],
-  [-9, 33], [-10, 30], [-13, 27.5], [-16, 22], [-17, 18],
-]
-
-const MADAGASCAR: ReadonlyArray<readonly [number, number]> = [
-  [43.2, -11.9], [49.5, -12.5], [50.5, -15.5], [47.5, -25.2],
-  [45, -25.5], [43.2, -21], [43.5, -16],
-]
-
-/** Standard ray-casting point-in-polygon test. */
-function inside(x: number, y: number, poly: ReadonlyArray<readonly [number, number]>) {
-  let hit = false
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const [xi, yi] = poly[i]
-    const [xj, yj] = poly[j]
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
-      hit = !hit
-    }
-  }
-  return hit
-}
-
 const RADIUS = 1.985
 
 type Options = {

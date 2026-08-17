@@ -11,10 +11,13 @@ export {
 export { programme, programmeIsDraft, programmeDraftNote } from './programme'
 export { venueZones, floorPlanNote } from './venue'
 export {
-  gallery,
+  collage,
+  galleryEyebrow,
+  galleryHeadline,
   galleryNote,
   featuredTestimonial,
   testimonials,
-  sponsorSlotCount,
+  partners,
+  partnerSlotCount,
 } from './gallery'
 export { faq } from './faq'

@@ -1,98 +1,186 @@
+import { useRef } from 'react'
+import type { CSSProperties } from 'react'
 import {
+  collage,
   featuredTestimonial,
-  gallery,
+  galleryEyebrow,
+  galleryHeadline,
   galleryNote,
-  sponsorSlotCount,
+  partnerSlotCount,
+  partners,
   testimonials,
 } from '../../content'
 import { site } from '../../shared/config/site'
-import { c, gold, lime, t, w } from '../../shared/config/theme'
+import { c, lime, t, w } from '../../shared/config/theme'
 import { useRichMotion } from '../../shared/hooks/useMotion'
-import { useTilt } from '../../shared/hooks/useTilt'
-import { Eyebrow, Heading, Wrap } from '../../shared/ui'
+import { useScrollFrame } from '../../shared/hooks/useScrollFrame'
+import { AFRICA_ASPECT, AFRICA_CLIP_PATH } from '../../shared/lib/africa'
+import { Eyebrow, Wrap } from '../../shared/ui'
 
-/** Photo mosaic from the network. */
+/** Must be unique in the document — clip-path references it by id. */
+const CLIP_ID = 'tadis-africa-clip'
+
+/**
+ * The gallery: one dense, overlapping pile of photographs with the section title
+ * set large straight across the middle of it.
+ *
+ * The whole cluster drifts and settles as it crosses the viewport — the same
+ * scroll-driven idea as the rest of the page, but applied to the group rather than
+ * to each photo, so it reads as one object being carried past.
+ */
 export function Gallery() {
+  const clusterRef = useRef<HTMLDivElement>(null)
+  const headlineRef = useRef<HTMLDivElement>(null)
   const richMotion = useRichMotion()
-  const tilt = useTilt(richMotion)
+
+  useScrollFrame(() => {
+    const cluster = clusterRef.current
+    const headline = headlineRef.current
+    if (!cluster) return
+
+    if (!richMotion) {
+      cluster.style.transform = ''
+      if (headline) headline.style.transform = ''
+      return
+    }
+
+    const box = cluster.getBoundingClientRect()
+    // -1 above the viewport centre, +1 below it.
+    const distance = Math.max(
+      -1,
+      Math.min(
+        1,
+        (box.top + box.height / 2 - window.innerHeight / 2) / window.innerHeight,
+      ),
+    )
+
+    // Settle from slightly small and low into place at centre screen.
+    const settle = 1 - Math.abs(distance) * 0.06
+    cluster.style.transform = `scale(${settle.toFixed(3)}) translateY(${(
+      distance * 26
+    ).toFixed(0)}px)`
+
+    // The type moves against the photographs, which is what separates the two
+    // planes and stops the whole thing reading flat.
+    if (headline) {
+      headline.style.transform = `translateY(${(-distance * 42).toFixed(0)}px)`
+    }
+  })
 
   return (
     <section
       id="gallery"
       style={{
-        padding: '100px 28px',
+        position: 'relative',
+        padding: '96px 0 110px',
         background: c.ink,
         borderTop: `1px solid ${lime(0.14)}`,
+        overflow: 'hidden',
       }}
     >
-      <Wrap style={{ padding: 0 }}>
-        <Eyebrow>GALLERY</Eyebrow>
+      <Wrap style={{ position: 'relative', zIndex: 30 }}>
+        <Eyebrow>{galleryEyebrow}</Eyebrow>
+      </Wrap>
 
-        <Heading size="md" style={{ margin: '16px 0 46px' }}>
-          From the network
-        </Heading>
+      {/* The clip path itself. Zero-sized so it never takes part in layout;
+          objectBoundingBox units mean the 0..1 path scales to whatever box uses it. */}
+      <svg width="0" height="0" aria-hidden focusable="false" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id={CLIP_ID} clipPathUnits="objectBoundingBox">
+            <path d={AFRICA_CLIP_PATH} />
+          </clipPath>
+        </defs>
+      </svg>
 
+      <div
+        style={{
+          position: 'relative',
+          maxWidth: 900,
+          margin: '0 auto',
+          padding: '0 20px',
+        }}
+      >
+        {/* The pile, cut to the shape of the continent. Percentage geometry keeps
+            both the tiles and the clip intact at any width. */}
+        {/* Not aria-hidden: the decorative tiles carry alt="" and are ignored, but
+            the convener's tile has real alt text that should still be announced. */}
         <div
-          className="gallery-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gridAutoRows: 210,
-            gap: 16,
-            perspective: 1200,
-          }}
+          ref={clusterRef}
+          className="collage"
+          style={
+            {
+              // Match the outline's own ratio so Africa is not stretched.
+              '--collage-aspect': AFRICA_ASPECT.toFixed(3),
+              clipPath: `url(#${CLIP_ID})`,
+              willChange: 'transform',
+            } as CSSProperties
+          }
         >
-          {gallery.map((tile) => (
-            <div
-              key={tile.id}
-              className={tile.src ? 'tilt' : undefined}
-              {...(tile.src ? tilt : {})}
-              style={{
-                gridColumn: tile.columnSpan ? `span ${tile.columnSpan}` : undefined,
-                gridRow: tile.rowSpan ? `span ${tile.rowSpan}` : undefined,
-                borderRadius: 22,
-                overflow: 'hidden',
-                border: tile.src
-                  ? `1px solid ${tile.emphasised ? gold(0.3) : w(0.1)}`
-                  : `1px dashed ${lime(0.28)}`,
-              }}
-            >
-              {tile.src ? (
-                <img
-                  src={tile.src}
-                  alt={tile.alt}
-                  loading="lazy"
-                  decoding="async"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: tile.objectPosition,
-                    display: 'block',
-                  }}
-                />
-              ) : (
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'grid',
-                    placeItems: 'center',
-                    background: 'rgba(163,217,60,0.05)',
-                    color: t(0.4),
-                    fontSize: 11.5,
-                    fontWeight: 700,
-                    letterSpacing: '0.16em',
-                  }}
-                >
-                  {tile.placeholderLabel}
-                </div>
-              )}
-            </div>
+          {collage.map((tile, index) => (
+            <img
+              key={`${tile.src}-${index}`}
+              src={tile.src}
+              alt={tile.alt ?? ''}
+              loading={index < 10 && !tile.feature ? 'eager' : 'lazy'}
+              decoding="async"
+              className="collage-tile"
+              data-outer={tile.outer ? 'true' : undefined}
+              data-feature={tile.feature ? 'true' : undefined}
+              style={
+                {
+                  '--tw': `${tile.w}%`,
+                  left: `${tile.x}%`,
+                  top: `${tile.y}%`,
+                  zIndex: tile.z,
+                  transform: `translate(-50%, -50%) rotate(${tile.r}deg)`,
+                } as CSSProperties
+              }
+            />
           ))}
         </div>
 
-        <p style={{ margin: '20px 0 0', fontSize: 14, color: t(0.5) }}>{galleryNote}</p>
+        {/* The coastline, traced over the photographs so the shape reads even where
+            a pale image meets the edge. Same path, drawn rather than cutting. */}
+        <svg
+          className="collage-outline"
+          viewBox="0 0 1 1"
+          preserveAspectRatio="none"
+          aria-hidden
+          focusable="false"
+          style={{ '--collage-aspect': AFRICA_ASPECT.toFixed(3) } as CSSProperties}
+        >
+          <path
+            d={AFRICA_CLIP_PATH}
+            fill="none"
+            stroke={c.lime}
+            strokeOpacity={0.55}
+            strokeWidth={1.5}
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+
+        {/* Set over the pile, centred on it. */}
+        <div ref={headlineRef} className="collage-headline">
+          <h2>
+            {galleryHeadline.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </h2>
+        </div>
+      </div>
+
+      <Wrap style={{ position: 'relative', zIndex: 30, marginTop: 28 }}>
+        <p
+          style={{
+            margin: 0,
+            maxWidth: '46ch',
+            fontSize: 16,
+            lineHeight: 1.6,
+            color: t(0.6),
+          }}
+        >
+          {galleryNote}
+        </p>
       </Wrap>
     </section>
   )
@@ -157,8 +245,10 @@ export function Voices() {
   )
 }
 
-/** Empty partner slots, with an invitation to fill them. */
+/** The sponsor and partner strip: confirmed logos, then empty tiles. */
 export function Sponsors() {
+  const total = partners.length + partnerSlotCount
+
   return (
     <section style={{ padding: '84px 28px', background: c.ink }}>
       <Wrap style={{ padding: 0 }}>
@@ -189,15 +279,52 @@ export function Sponsors() {
           className="grid-5"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: `repeat(${Math.min(total, 5)}, 1fr)`,
             gap: 16,
           }}
         >
-          {Array.from({ length: sponsorSlotCount }, (_, index) => (
+          {partners.map((partner) => (
             <div
-              key={index}
+              key={partner.id}
+              title={partner.name}
               style={{
-                height: 96,
+                height: 150,
+                borderRadius: 16,
+                overflow: 'hidden',
+                border: `1px solid ${w(0.12)}`,
+                background: w(0.04),
+                display: 'grid',
+                placeItems: 'center',
+                padding: 14,
+              }}
+            >
+              {/* `contain`, not `cover`: these lockups differ in proportion — one
+                  is a stacked mark-over-wordmark, the others are wide — so cropping
+                  to fill sliced the wordmark clean off. Contain shows all of every
+                  logo, and the taller tile leaves it room to read. */}
+              <img
+                src={partner.logo}
+                alt={partner.name}
+                loading="lazy"
+                decoding="async"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  width: 'auto',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  display: 'block',
+                  borderRadius: 8,
+                }}
+              />
+            </div>
+          ))}
+
+          {Array.from({ length: partnerSlotCount }, (_, index) => (
+            <div
+              key={`slot-${index}`}
+              style={{
+                height: 150,
                 display: 'grid',
                 placeItems: 'center',
                 borderRadius: 16,
@@ -212,7 +339,6 @@ export function Sponsors() {
         </div>
 
         <p style={{ margin: '18px 0 0', textAlign: 'center', fontSize: 14, color: t(0.5) }}>
-          Send partner logos and we will drop them in.{' '}
           <a href={`mailto:${site.contact.email}`}>Become a partner</a>
         </p>
       </Wrap>

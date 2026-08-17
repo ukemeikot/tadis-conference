@@ -144,17 +144,42 @@ export type VenueZone = {
 
 /* ------------------------------ gallery / FAQ ------------------------------ */
 
-export type GalleryTile = {
+/**
+ * One photo in the gallery collage.
+ *
+ * Positions are percentages of the collage box and refer to the tile's **centre**,
+ * which makes the cluster far easier to tune by hand than corner offsets would.
+ */
+export type CollageTile = {
+  src: string
+  /** Centre, as % from the left edge. */
+  x: number
+  /** Centre, as % from the top edge. */
+  y: number
+  /** Width as % of the box. */
+  w: number
+  /** Rotation in degrees — small values only; this is a pile, not a fan. */
+  r: number
+  /** Stacking order. Higher tiles sit nearer the middle of the pile. */
+  z: number
+  /** Outer-ring tiles, dropped on narrow screens so the cluster stays dense. */
+  outer?: boolean
+  /** Singled out: larger, ringed, and always on top of the pile. */
+  feature?: boolean
+  /** Only set on a feature tile — the rest of the pile is decorative. */
+  alt?: string
+}
+
+/** A sponsor or partner logo in the strip. */
+export type Partner = {
   id: string
-  /** Omit for an empty tile awaiting event photography. */
-  src?: string
-  alt: string
-  /** Shown instead of an image when `src` is omitted. */
-  placeholderLabel?: string
-  columnSpan?: number
-  rowSpan?: number
-  objectPosition?: string
-  emphasised?: boolean
+  name: string
+  /**
+   * Each logo arrives on its own brand background rather than as a transparent
+   * mark, so tiles let that background fill them.
+   */
+  logo: string
+  url?: string
 }
 
 export type Testimonial = {

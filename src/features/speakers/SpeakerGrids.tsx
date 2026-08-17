@@ -1,5 +1,10 @@
 import { firesideGuests, panelists } from '../../content'
-import { panelNote, panelTopic } from '../../content/speakers'
+import {
+  firesideNote,
+  firesideTopic,
+  panelNote,
+  panelTopic,
+} from '../../content/speakers'
 import type { SpeakerCard } from '../../content/types'
 import { c, lime, t, w } from '../../shared/config/theme'
 import { useRichMotion } from '../../shared/hooks/useMotion'
@@ -161,8 +166,13 @@ export function FiresideGrid() {
         <GridHeader
           eyebrow="FIRESIDE CHAT"
           eyebrowColor={c.amber}
-          title="Slower, closer conversation"
-          note="Two chairs, no slides, 30 minutes. Held in the media and interview lounge."
+          title={firesideTopic}
+          note={firesideNote}
+          titleStyle={{
+            fontSize: 'clamp(22px, 2.4vw, 34px)',
+            lineHeight: 1.2,
+            maxWidth: '26ch',
+          }}
         />
 
         <div
