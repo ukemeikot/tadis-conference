@@ -1,0 +1,10 @@
+/* ProHealth Pathway — Radius tokens (synced from Claude Design) */
+:root {
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;  /* default: inputs, small cards */
+  --radius-lg:   14px;  /* cards, buttons */
+  --radius-xl:   20px;  /* feature cards, sheets */
+  --radius-2xl:  28px;  /* hero panels */
+  --radius-pill: 999px; /* chips, pills, avatars */
+}

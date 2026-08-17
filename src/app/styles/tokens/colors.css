@@ -1,0 +1,124 @@
+/* ProHealth Pathway — Color tokens
+ * Synced from the Claude Design project (ProHealth Pathway Design System).
+ * The TADIS 2026 site layers its own event palette on top — see src/theme.ts.
+ * Do not hand-edit: re-sync from the design system instead.
+ */
+:root {
+  /* ---- Green (primary / growth & trust) ---- */
+  --green-50:  #ECFBF1;
+  --green-100: #D0F5DE;
+  --green-200: #A3E9C0;
+  --green-300: #68D79B;
+  --green-400: #33BE77;
+  --green-500: #159B62; /* primary */
+  --green-600: #0E7E50; /* hover */
+  --green-700: #0C6642; /* active */
+  --green-800: #0C5236;
+  --green-900: #0A3D29; /* deep anchor */
+
+  /* ---- Gold (secondary / from the logo) ---- */
+  --gold-50:  #FBF7E9;
+  --gold-100: #F5ECC8;
+  --gold-200: #EAD98E;
+  --gold-300: #DDC45B;
+  --gold-400: #CDAB47;
+  --gold-500: #B8963A; /* secondary — matches logo gold */
+  --gold-600: #9A7C2F;
+  --gold-700: #7C6326;
+  --gold-800: #634F22;
+  --gold-900: #4A3B1B;
+
+  /* ---- Teal (tertiary / calm, info) ---- */
+  --teal-50:  #EBFAFA;
+  --teal-100: #CAF1F1;
+  --teal-200: #98E4E4;
+  --teal-300: #5CCFD0;
+  --teal-400: #2BB2B4;
+  --teal-500: #0E9597; /* tertiary */
+  --teal-600: #0B787A;
+  --teal-700: #0C6062;
+  --teal-800: #0E4E50;
+  --teal-900: #103F41;
+
+  /* ---- Coral (accent / energy & motivation) ---- */
+  --coral-50:  #FEF1EC;
+  --coral-100: #FCDDD1;
+  --coral-200: #F8BBA4;
+  --coral-300: #F2926F;
+  --coral-400: #EC6D45;
+  --coral-500: #E1512A; /* accent */
+  --coral-600: #C13F1E;
+  --coral-700: #9C331B;
+  --coral-800: #7E2B1A;
+  --coral-900: #682517;
+
+  /* ---- Slate (cool neutral) ---- */
+  --slate-50:  #F7F9FC;
+  --slate-100: #EEF2F7;
+  --slate-200: #E1E7F0;
+  --slate-300: #CBD4E1;
+  --slate-400: #94A3B8;
+  --slate-500: #64748B;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1E293B;
+  --slate-900: #0F1B2D;
+  --white: #FFFFFF;
+
+  /* ---- Red (danger) ---- */
+  --red-100:   #FBDCDC;
+  --red-500:   #E23D3D;
+  --red-600:   #C62B2B;
+
+  /* =========================================================
+     SEMANTIC ALIASES — reference these in product code
+     ========================================================= */
+  /* Brand */
+  --color-primary:        var(--green-500);
+  --color-primary-hover:  var(--green-600);
+  --color-primary-active: var(--green-700);
+  --color-primary-soft:   var(--green-50);
+  --color-navy:           var(--green-900);   /* deep brand anchor */
+  --color-secondary:      var(--gold-500);
+  --color-secondary-soft: var(--gold-50);
+  --color-tertiary:       var(--teal-500);
+  --color-tertiary-soft:  var(--teal-50);
+  --color-accent:         var(--coral-500);
+  --color-accent-soft:    var(--coral-50);
+
+  /* Text */
+  --text-strong:  var(--slate-900);
+  --text-body:    var(--slate-700);
+  --text-muted:   var(--slate-500);
+  --text-subtle:  var(--slate-400);
+  --text-inverse: var(--white);
+  --text-link:    var(--green-600);
+  --text-on-primary: var(--white);
+
+  /* Surfaces */
+  --surface-page:    var(--slate-50);
+  --surface-card:    var(--white);
+  --surface-sunken:  var(--slate-100);
+  --surface-hover:   var(--slate-100);
+  --surface-inverse: var(--green-900);
+  --surface-brand:   var(--green-500);
+
+  /* Borders */
+  --border-subtle:  var(--slate-200);
+  --border-default: var(--slate-300);
+  --border-strong:  var(--slate-400);
+  --border-brand:   var(--green-500);
+
+  /* Focus */
+  --focus-ring: var(--green-400);
+
+  /* Status (fg + soft bg pairs) */
+  --success-fg: var(--green-600);
+  --success-bg: var(--green-100);
+  --warning-fg: #B0791A;
+  --warning-bg: #FBEFC9;
+  --danger-fg:  var(--red-600);
+  --danger-bg:  var(--red-100);
+  --info-fg:    var(--teal-700);
+  --info-bg:    var(--teal-100);
+}

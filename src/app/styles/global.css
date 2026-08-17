@@ -1,0 +1,258 @@
+/* ============================================================
+   TADIS 2026 — global page styles
+
+   Design-system tokens come first, then this file layers the
+   event's own dark palette and the interaction states that the
+   original design expressed as `style-hover` attributes.
+
+   Everything here is either (a) verbatim from the design's
+   <style> block, or (b) a responsive breakpoint. The design was
+   authored desktop-only; the @media blocks at the bottom are an
+   addition so the page is usable on a phone.
+   ============================================================ */
+
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/radius.css';
+@import './tokens/shadows.css';
+@import './tokens/motion.css';
+@import './tokens/base.css';
+
+/* ---------- from the design's <style> block ---------- */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+
+body {
+  margin: 0;
+  background: #041710;
+  color: #e8f1ea;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* The DS base.css points headings at --text-strong (near-black),
+   which is wrong on this dark page. */
+h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+}
+
+a {
+  color: #a3d93c;
+  text-decoration: none;
+}
+a:hover {
+  color: #e9c935;
+  text-decoration: none;
+}
+
+::selection {
+  background: #a3d93c;
+  color: #04160f;
+}
+
+@keyframes tadisPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+  50%      { transform: translate(-50%, -50%) scale(1.55); opacity: 0.35; }
+}
+
+@keyframes tadisSpin {
+  to { transform: rotate(360deg); }
+}
+
+.tadis-rail::-webkit-scrollbar { height: 8px; }
+.tadis-rail::-webkit-scrollbar-thumb {
+  background: rgba(163, 217, 60, 0.4);
+  border-radius: 999px;
+}
+.tadis-rail::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+/* ---------- layout helpers ---------- */
+
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 28px;
+  width: 100%;
+}
+.wrap-md { max-width: 1000px; }
+.wrap-sm { max-width: 900px; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  background: #a3d93c;
+  color: #04160f;
+  font-weight: 800;
+  border-radius: 0 0 12px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* ---------- interaction states (were `style-hover`) ---------- */
+
+.cta-lime {
+  background: #a3d93c;
+  color: #04160f;
+  transition: background 200ms var(--ease-standard), transform 160ms var(--ease-out);
+}
+.cta-lime:hover {
+  background: #e9c935;
+  color: #04160f;
+}
+.cta-lime:active { transform: translateY(1px); }
+
+.cta-ghost {
+  border: 1px solid rgba(232, 241, 234, 0.3);
+  color: #e8f1ea;
+  transition: border-color 200ms var(--ease-standard), color 200ms var(--ease-standard);
+}
+.cta-ghost:hover {
+  border-color: #a3d93c;
+  color: #a3d93c;
+}
+
+.nav-link {
+  color: rgba(232, 241, 234, 0.82);
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition: color 200ms, border-color 200ms;
+}
+.nav-link:hover { color: #e8f1ea; }
+.nav-link[data-active='true'] {
+  color: #a3d93c;
+  border-bottom-color: #a3d93c;
+}
+
+.faq-item {
+  transition: border-color 200ms var(--ease-standard);
+}
+.faq-item:hover { border-color: rgba(163, 217, 60, 0.45); }
+
+/* Mouse-parallax tilt cards. The transform itself is written by JS;
+   this only supplies the easing and the 3D context. */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Venue floor-plan zones. --z is the resting depth, --zh the hover depth. */
+.zone {
+  transform: translateZ(var(--z));
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.zone:hover {
+  transform: translateZ(var(--zh));
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1100px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-5 { grid-template-columns: repeat(3, 1fr) !important; }
+  .register-grid { grid-template-columns: 1fr !important; gap: 44px !important; }
+  .venue-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
+}
+
+@media (max-width: 900px) {
+  html { scroll-padding-top: 64px; }
+
+  .wrap { padding: 0 20px; }
+
+  .grid-3 { grid-template-columns: 1fr !important; }
+  .contact-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .voices-grid { grid-template-columns: 1fr !important; }
+
+  /* Speaker stage: single column, portrait above the copy, always
+     left-aligned regardless of which side it sat on at desktop. */
+  .stage-row {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    min-height: 0 !important;
+    padding: 44px 20px !important;
+    perspective: none !important;
+  }
+  .stage-card {
+    order: 1;
+    justify-self: stretch !important;
+    max-width: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .stage-copy {
+    order: 2;
+    justify-self: stretch !important;
+    max-width: none !important;
+    text-align: left !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .stage-copy .stage-meta { justify-content: flex-start !important; }
+
+  /* The centre timeline only makes sense against a two-column stage. */
+  .stage-rail { display: none !important; }
+
+  /* About sticky-stack: tighter panels so the copy still fits a phone. */
+  .about-panel-inner {
+    padding: 40px 24px !important;
+    border-radius: 24px !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+  .about-panel {
+    position: static !important;
+    height: auto !important;
+    margin-bottom: 20px;
+  }
+  .about-progress { display: none !important; }
+
+  /* Flatten the isometric floor plan into a readable top-down one. */
+  .venue-plan {
+    transform: none !important;
+    aspect-ratio: 1.1 !important;
+  }
+  .zone, .zone:hover { transform: none !important; }
+
+  .prog-row {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 22px !important;
+  }
+
+  .countdown-block { flex-direction: column !important; align-items: stretch !important; }
+  .countdown-cells { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
+  .countdown-cells > div { min-width: 0 !important; padding: 12px 8px !important; }
+  .countdown-when { margin-left: 0 !important; }
+
+  .hero-inner { padding: 72px 20px 84px !important; }
+  .footer-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 620px) {
+  .grid-4 { grid-template-columns: 1fr !important; }
+  .grid-5 { grid-template-columns: repeat(2, 1fr) !important; }
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr !important;
+    grid-auto-rows: 150px !important;
+  }
+  .countdown-cells > div > div:first-child { font-size: 24px !important; }
+}
+
+/* Respect the OS motion preference: the scroll-driven 3D work is
+   skipped in JS too, this covers the CSS-driven pieces. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .venue-plan { transform: none !important; }
+}

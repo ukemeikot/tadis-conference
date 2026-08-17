@@ -1,0 +1,13 @@
+/* ProHealth Pathway — Elevation, green-tinted and soft (synced from Claude Design) */
+:root {
+  --shadow-xs:  0 1px 2px rgba(10, 61, 41, 0.06);
+  --shadow-sm:  0 1px 3px rgba(10, 61, 41, 0.08), 0 1px 2px rgba(10, 61, 41, 0.06);
+  --shadow-md:  0 4px 12px rgba(10, 61, 41, 0.08), 0 2px 4px rgba(10, 61, 41, 0.05);
+  --shadow-lg:  0 12px 28px rgba(10, 61, 41, 0.12), 0 4px 8px rgba(10, 61, 41, 0.06);
+  --shadow-xl:  0 24px 48px rgba(10, 61, 41, 0.16), 0 8px 16px rgba(10, 61, 41, 0.08);
+  --shadow-focus: 0 0 0 4px rgba(21, 155, 98, 0.25);
+
+  /* Brand-tinted glow for primary CTAs / active pathway nodes */
+  --shadow-brand: 0 8px 20px rgba(21, 155, 98, 0.30);
+  --shadow-inner: inset 0 1px 2px rgba(10, 61, 41, 0.08);
+}
