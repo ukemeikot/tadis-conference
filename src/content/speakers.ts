@@ -87,7 +87,11 @@ export const stageSpeakers: StageSpeaker[] = [
     sessionTitle: '“Influence, Media and Africa”',
     session: [],
     side: 'right',
-    // Portrait to come.
+    portrait: {
+      src: '/assets/speaker-williams-uchemba.jpg',
+      thumb: '/assets/sm/speaker-williams-uchemba.jpg',
+      objectPosition: 'center top',
+    },
     border: 'lime',
   },
   {
@@ -141,7 +145,12 @@ export const stageSpeakers: StageSpeaker[] = [
       'Creation in Purposes.”',
     session: [],
     side: 'left',
-    // Portrait to come.
+    portrait: {
+      src: '/assets/speaker-jasper-ifeanyi.jpg',
+      thumb: '/assets/sm/speaker-jasper-ifeanyi.jpg',
+      // Square source in a 4:5 frame — crops at the sides, so stay centred.
+      objectPosition: 'center center',
+    },
     border: 'lime',
   },
   {
@@ -163,68 +172,123 @@ export const stageSpeakers: StageSpeaker[] = [
   },
 ]
 
-/** Faculty panel, 15:30, main auditorium. Names still to be announced. */
+/**
+ * The panel's shared topic, taken from the "PANELIST REVEAL" fliers, which print
+ * it as "Panel Topic" on every panelist's card.
+ */
+export const panelTopic =
+  '“Building the New Africa(n): The Intersection of Human Capital, Content and ' +
+  'Enterprise in Re-Engineering the Continent”'
+
+/** Faculty panel, 15:30, main auditorium. Questions taken from the floor. */
+export const panelNote =
+  'Faculty panel, 15:30, main auditorium. Questions taken from the floor.'
+
+const PANEL_IMAGE_HEIGHT = 360
+
+/**
+ * The announced panelists.
+ *
+ * Only Abasiekeme Umana's role has been published so far; the rest carry a name
+ * and a portrait with no specialism, rather than a guessed one. The moderator has
+ * not been identified, so all are billed as PANELIST.
+ */
 export const panelists: SpeakerCard[] = [
   {
-    id: 'panelist-1',
+    id: 'abasiekeme-umana',
     eyebrow: 'PANELIST',
-    name: 'To be announced',
-    detail: 'Enterprise and capital',
+    name: 'Abasiekeme Umana',
+    detail: 'Public strategist and policy delivery specialist',
     accent: 'lime',
-    imageHeight: 300,
+    portrait: {
+      src: '/assets/panelist-abasiekeme-umana.jpg',
+      thumb: '/assets/sm/panelist-abasiekeme-umana.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
   },
   {
-    id: 'panelist-2',
+    id: 'emediong-edem',
     eyebrow: 'PANELIST',
-    name: 'To be announced',
-    detail: 'Civic reform and governance',
+    name: 'Emediong Edem',
     accent: 'lime',
-    imageHeight: 300,
+    portrait: {
+      src: '/assets/panelist-emediong-edem.jpg',
+      thumb: '/assets/sm/panelist-emediong-edem.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
   },
   {
-    id: 'panelist-3',
+    id: 'ima-akpan',
     eyebrow: 'PANELIST',
-    name: 'To be announced',
-    detail: 'The creative economy',
+    name: 'Ima Akpan',
     accent: 'lime',
-    imageHeight: 300,
-  },
-  {
-    id: 'moderator',
-    eyebrow: 'MODERATOR',
-    name: 'To be announced',
-    detail: 'Chairs the panel',
-    accent: 'lime',
-    imageHeight: 300,
+    portrait: {
+      src: '/assets/panelist-ima-akpan.jpg',
+      thumb: '/assets/sm/panelist-ima-akpan.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
   },
 ]
 
-/** Two chairs, no slides, 30 minutes — in the media and interview lounge. */
+/**
+ * The fireside chat line-up.
+ *
+ * Billed uniformly as FIRESIDE CHAT: who hosts and who guests has not been
+ * published, so the cards do not assert it. Session times are left off for the
+ * same reason — the 13:00 / 16:15 slots in the original design were placeholders.
+ */
 export const firesideGuests: SpeakerCard[] = [
   {
-    id: 'fireside-host',
-    eyebrow: 'HOST',
-    name: 'To be announced',
-    detail: 'Leads both fireside sessions',
+    id: 'miracle-edet',
+    eyebrow: 'FIRESIDE CHAT',
+    name: 'Miracle Edet',
     accent: 'amber',
-    emphasised: true,
-    imageHeight: 320,
+    portrait: {
+      src: '/assets/fireside-miracle-edet.jpg',
+      thumb: '/assets/sm/fireside-miracle-edet.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
   },
   {
-    id: 'fireside-guest-1',
-    eyebrow: 'GUEST',
-    name: 'To be announced',
-    detail: 'Session 1 · 13:00',
+    id: 'rejoice-ekemini',
+    eyebrow: 'FIRESIDE CHAT',
+    name: 'Rejoice Ekemini',
     accent: 'amber',
-    imageHeight: 320,
+    portrait: {
+      src: '/assets/fireside-rejoice-ekemini.jpg',
+      thumb: '/assets/sm/fireside-rejoice-ekemini.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
   },
   {
-    id: 'fireside-guest-2',
-    eyebrow: 'GUEST',
-    name: 'To be announced',
-    detail: 'Session 2 · 16:15',
+    id: 'saviour-udo',
+    eyebrow: 'FIRESIDE CHAT',
+    name: 'Saviour Udo',
     accent: 'amber',
-    imageHeight: 320,
+    portrait: {
+      src: '/assets/fireside-saviour-udo.jpg',
+      thumb: '/assets/sm/fireside-saviour-udo.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
+  },
+  {
+    id: 'utonne-ekefre',
+    eyebrow: 'FIRESIDE CHAT',
+    // TODO: supplied as "UTONNE"; surname taken from the bio PDF in the uploads.
+    name: 'Utonne Ekefre',
+    accent: 'amber',
+    portrait: {
+      src: '/assets/fireside-utonne-ekefre.jpg',
+      thumb: '/assets/sm/fireside-utonne-ekefre.jpg',
+      objectPosition: 'center 18%',
+    },
+    imageHeight: PANEL_IMAGE_HEIGHT,
   },
 ]
 

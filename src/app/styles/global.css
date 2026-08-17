@@ -139,6 +139,20 @@ a:hover {
 }
 .faq-item:hover { border-color: rgba(163, 217, 60, 0.45); }
 
+/* Speaker-stage timeline geometry on narrow screens: where the rail sits from the
+   left edge, and how far down each row its node lands (just inside the portrait,
+   which starts at the row's 44px top padding). */
+:root {
+  --rail-x: 20px;
+  --rail-node-y: 92px;
+}
+
+/* Only drawn in the narrow layout — at desktop width the node sits on the centre
+   line between the two columns and needs no connector. */
+.stage-connector {
+  display: none;
+}
+
 /* Mouse-parallax tilt cards. The transform itself is written by JS;
    this only supplies the easing and the 3D context. */
 .tilt {
@@ -175,12 +189,13 @@ a:hover {
   .voices-grid { grid-template-columns: 1fr !important; }
 
   /* Speaker stage: single column, portrait above the copy, always
-     left-aligned regardless of which side it sat on at desktop. */
+     left-aligned regardless of which side it sat on at desktop. The extra
+     left padding is the gutter the timeline rail runs down. */
   .stage-row {
     grid-template-columns: 1fr !important;
     gap: 32px !important;
     min-height: 0 !important;
-    padding: 44px 20px !important;
+    padding: 44px 20px 44px 56px !important;
     perspective: none !important;
   }
   .stage-card {
@@ -200,8 +215,48 @@ a:hover {
   }
   .stage-copy .stage-meta { justify-content: flex-start !important; }
 
-  /* The centre timeline only makes sense against a two-column stage. */
-  .stage-rail { display: none !important; }
+  /* The timeline moves out of the centre — which only reads against a
+     two-column stage — and runs down the left gutter instead, with a short
+     horizontal link drawn across to each speaker as their row arrives. */
+  .stage-rail {
+    left: var(--rail-x) !important;
+  }
+
+  .stage-node {
+    left: var(--rail-x) !important;
+    top: var(--rail-node-y) !important;
+    z-index: 2;
+  }
+
+  .stage-connector {
+    display: block;
+    position: absolute;
+    left: var(--rail-x);
+    top: var(--rail-node-y);
+    height: 2px;
+    width: 0;
+    margin-top: -1px;
+    border-radius: 2px;
+    opacity: 0;
+    background: linear-gradient(90deg, #a3d93c, #e9c935);
+    transition:
+      width 460ms var(--ease-out),
+      opacity 260ms linear;
+  }
+
+  .stage-row[data-revealed='true'] .stage-connector {
+    /* Reaches from the rail to the card edge: 56px gutter - 20px rail = 36px. */
+    width: 36px;
+    opacity: 1;
+    box-shadow: 0 0 14px rgba(163, 217, 60, 0.5);
+  }
+
+  /* !important because the desktop branch writes these inline. */
+  .stage-row[data-revealed='true'] .stage-node {
+    background: #e9c935 !important;
+    border-color: #e9c935 !important;
+    box-shadow: 0 0 22px 7px rgba(233, 201, 53, 0.45) !important;
+  }
 
   /* About sticky-stack: tighter panels so the copy still fits a phone. */
   .about-panel-inner {

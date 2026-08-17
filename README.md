@@ -133,15 +133,21 @@ source that is not 4:5 needs an explicit `objectPosition` in `content/speakers.t
 
 ## Needs your input
 
-**Three portraits are missing.** Onofiok Luke, Williams Uchemba and Jasper Ifeanyi
-have their names, roles and topics on the page but render a dashed "portrait to
-come" card. Drop clean headshots into `public/assets/` as
-`speaker-onofiok-luke.jpg` etc. (plus an `sm/` copy) and add a `portrait` block to
-their entry in `content/speakers.ts`.
+**One portrait is missing:** Rt. Hon. Onofiok Luke. His name, role and topic are on
+the page but his card renders a dashed "portrait to come" placeholder. Drop a
+headshot in and add a `portrait` block to his entry in `content/speakers.ts`.
 
-Do **not** crop these out of the reveal fliers — the fliers are composed around
-their overlay text, so any crop that avoids the "SPEAKER REVEAL" badge and the name
-block is a tight head-only close-up that has to be upscaled. Tried and discarded.
+Do **not** crop it out of his reveal flier — the fliers are composed around their
+overlay text, so any crop that avoids the "SPEAKER REVEAL" badge and the name block
+is a tight head-only close-up needing heavy upscaling. Tried and discarded.
+
+**Roles for seven of the eight panel and fireside names.** Only Abasiekeme Umana's
+role has been published. The rest show a name and portrait with no specialism,
+rather than a guessed one.
+
+**Who hosts the fireside chat**, and **who moderates the panel**. Neither has been
+published, so the fireside four are billed uniformly as FIRESIDE CHAT and all
+panelists as PANELIST.
 
 **Session times.** The fliers all print 8:30 AM, which is the summit start time
 rather than each speaker's slot, so only Fela (08:30), Lady Helen (10:45) and the
@@ -149,6 +155,20 @@ convener (10:00) carry times. The rest show none until the running order is set.
 
 **Paul Udah's nationality.** His flier carries a green/yellow/blue flag (Gabon)
 where the others carry Nigeria. Left off the page in case it is a flier error.
+
+**Utonne Ekefre's surname** was taken from the bio PDF in the uploads; the image
+was supplied as just "UTONNE". Worth confirming.
+
+## Headshot pipeline
+
+The supplied headshots are transparent PNG cut-outs at 2–6 MB each. They are
+composited onto a soft vertical brand gradient (deep green into ink) and written
+out at 1600px plus a 900px `sm/` copy — 35.7 MB of sources became 2.5 MB. Flat
+black would have read as a mistake; the gradient reads as a studio backdrop and
+matches the card surfaces behind it.
+
+Naming follows the section: `speaker-*`, `panelist-*`, `fireside-*`. Moving someone
+between sections means renaming their asset too.
 
 ## Still placeholder
 

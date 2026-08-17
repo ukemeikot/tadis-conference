@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { stageSpeakers } from '../../content'
 import type { StageSpeaker } from '../../content/types'
 import { c, font, gold, lime, t } from '../../shared/config/theme'
-import { useRichMotion } from '../../shared/hooks/useMotion'
+import { useMediaQuery, useRichMotion } from '../../shared/hooks/useMotion'
 import { useScrollFrame } from '../../shared/hooks/useScrollFrame'
 import {
   card3dOpacity,
@@ -32,9 +32,14 @@ export function SpeakerStage() {
   const stageRef = useRef<HTMLElement>(null)
   const fillRef = useRef<HTMLDivElement>(null)
   const richMotion = useRichMotion()
+  // The rail moves from the centre to the left edge below this width, which is a
+  // different behaviour rather than just different styling — hence a separate
+  // query from useRichMotion (that one also trips on prefers-reduced-motion).
+  const isNarrow = useMediaQuery('(max-width: 900px)')
 
   // Cached element lists — querySelectorAll on every frame would be wasteful.
   const cache = useRef<{
+    rows: HTMLElement[]
     cards: HTMLElement[]
     copy: HTMLElement[]
     nodes: HTMLElement[]
@@ -46,19 +51,55 @@ export function SpeakerStage() {
 
     if (!cache.current) {
       cache.current = {
+        rows: Array.from(stage.querySelectorAll<HTMLElement>('[data-row]')),
         cards: Array.from(stage.querySelectorAll<HTMLElement>('[data-card]')),
         copy: Array.from(stage.querySelectorAll<HTMLElement>('[data-copy]')),
         nodes: Array.from(stage.querySelectorAll<HTMLElement>('[data-node]')),
       }
     }
-    const { cards, copy, nodes } = cache.current
-    const mid = window.innerHeight / 2
+    const { rows, cards, copy, nodes } = cache.current
+    const viewportHeight = window.innerHeight
+    const mid = viewportHeight / 2
 
-    // Grow the lit section of the rail down to the viewport centre.
+    // Grow the lit section of the rail down to the viewport centre. Same mechanic
+    // whether the rail is centred or on the left edge.
     if (fillRef.current) {
       const box = stage.getBoundingClientRect()
       const height = Math.max(0, Math.min(box.height, mid - box.top))
       fillRef.current.style.height = `${height.toFixed(1)}px`
+    }
+
+    if (isNarrow) {
+      // Narrow layout: no 3D. Instead each row flips a `data-revealed` flag as it
+      // comes into view, and CSS draws the horizontal link from the rail to the
+      // card and lights that speaker's node.
+      for (const element of [...cards, ...copy]) {
+        if (element.style.transform || element.style.opacity) {
+          element.style.transform = ''
+          element.style.opacity = ''
+        }
+      }
+      for (const node of nodes) {
+        if (node.style.background) {
+          node.style.background = ''
+          node.style.borderColor = ''
+          node.style.boxShadow = ''
+        }
+      }
+      for (const row of rows) {
+        const box = row.getBoundingClientRect()
+        const revealed =
+          box.top < viewportHeight * 0.65 && box.bottom > viewportHeight * 0.15
+        const next = revealed ? 'true' : 'false'
+        // Only touch the DOM on an actual change — this runs every frame.
+        if (row.dataset.revealed !== next) row.dataset.revealed = next
+      }
+      return
+    }
+
+    // Wide layout: drop any reveal flags left over from the narrow one.
+    for (const row of rows) {
+      if (row.dataset.revealed) delete row.dataset.revealed
     }
 
     if (!richMotion) {
@@ -284,6 +325,7 @@ function StageRow({ speaker }: { speaker: StageSpeaker }) {
 
   return (
     <article
+      data-row
       className="stage-row"
       style={{
         position: 'relative',
@@ -298,9 +340,14 @@ function StageRow({ speaker }: { speaker: StageSpeaker }) {
         perspective: 1600,
       }}
     >
+      {/* Horizontal link from the rail to this speaker. Hidden at desktop width,
+          where the node sits on the centre line between the two columns. */}
+      <div className="stage-connector" aria-hidden />
+
       <div
         data-node
         aria-hidden
+        className="stage-node"
         style={{
           position: 'absolute',
           left: '50%',

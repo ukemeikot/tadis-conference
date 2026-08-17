@@ -10,7 +10,6 @@ import { RegistrationSection } from '../features/registration/RegistrationSectio
 import {
   FiresideGrid,
   PanelistsGrid,
-  RevealRail,
   SpeakerStage,
   SpeakersIntro,
 } from '../features/speakers'
@@ -44,7 +43,10 @@ export function App() {
         <SpeakerStage />
         <PanelistsGrid />
         <FiresideGrid />
-        <RevealRail />
+        {/* RevealRail is intentionally not mounted: it advertised "eight more
+            still to come", which stopped being true once the eight panelists were
+            announced. The component and its content are kept, so re-adding it is
+            a one-line change if there is another batch to tease. */}
 
         <ProgrammeIntro />
         <ProgrammeTimeline />

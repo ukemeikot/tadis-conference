@@ -81,7 +81,8 @@ export type SpeakerCard = {
   id: string
   eyebrow: string
   name: string
-  detail: string
+  /** Role or specialism. Omit rather than invent one when it is not confirmed. */
+  detail?: string
   accent: SpeakerAccent
   portrait?: Portrait
   /** Fireside host cards carry a warm gradient. */

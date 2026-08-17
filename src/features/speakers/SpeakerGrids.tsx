@@ -1,4 +1,5 @@
 import { firesideGuests, panelists } from '../../content'
+import { panelNote, panelTopic } from '../../content/speakers'
 import type { SpeakerCard } from '../../content/types'
 import { c, lime, t, w } from '../../shared/config/theme'
 import { useRichMotion } from '../../shared/hooks/useMotion'
@@ -92,15 +93,17 @@ function Card({ card, tilt }: { card: SpeakerCard; tilt: ReturnType<typeof useTi
         >
           {card.name}
         </div>
-        <div
-          style={{
-            marginTop: card.accent === 'amber' ? 8 : 6,
-            fontSize: card.accent === 'amber' ? 14.5 : 14,
-            color: t(card.accent === 'amber' ? 0.65 : 0.6),
-          }}
-        >
-          {card.detail}
-        </div>
+        {card.detail && (
+          <div
+            style={{
+              marginTop: card.accent === 'amber' ? 8 : 6,
+              fontSize: card.accent === 'amber' ? 14.5 : 14,
+              color: t(card.accent === 'amber' ? 0.65 : 0.6),
+            }}
+          >
+            {card.detail}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -117,15 +120,22 @@ export function PanelistsGrid() {
         <GridHeader
           eyebrow="PANELISTS"
           eyebrowColor={c.lime}
-          title="“What has to be re-engineered first”"
-          note="Faculty panel, 15:30, main auditorium. Questions taken from the floor."
+          title={panelTopic}
+          note={panelNote}
+          // The panel topic is a full sentence, so it needs to sit smaller than a
+          // short section title would.
+          titleStyle={{
+            fontSize: 'clamp(22px, 2.2vw, 32px)',
+            lineHeight: 1.2,
+            maxWidth: '30ch',
+          }}
         />
 
         <div
-          className="grid-4"
+          className="grid-3"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: `repeat(${Math.min(panelists.length, 3)}, 1fr)`,
             gap: 20,
             marginTop: 44,
             perspective: 1300,
@@ -156,10 +166,10 @@ export function FiresideGrid() {
         />
 
         <div
-          className="grid-3"
+          className="grid-4"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: `repeat(${Math.min(firesideGuests.length, 4)}, 1fr)`,
             gap: 20,
             marginTop: 44,
             perspective: 1300,

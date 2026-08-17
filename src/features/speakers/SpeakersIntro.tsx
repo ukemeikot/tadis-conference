@@ -77,11 +77,14 @@ export function GridHeader({
   eyebrowColor,
   title,
   note,
+  titleStyle,
 }: {
   eyebrow: string
   eyebrowColor: string
   title: string
   note: string
+  /** For a long title — the panel topic runs to a couple of sentences. */
+  titleStyle?: React.CSSProperties
 }) {
   return (
     <div
@@ -97,7 +100,12 @@ export function GridHeader({
         <Eyebrow color={eyebrowColor}>{eyebrow}</Eyebrow>
         <Heading
           size="sm"
-          style={{ margin: '16px 0 0', letterSpacing: '-0.03em', lineHeight: 1.05 }}
+          style={{
+            margin: '16px 0 0',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.05,
+            ...titleStyle,
+          }}
         >
           {title}
         </Heading>
