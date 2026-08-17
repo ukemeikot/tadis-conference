@@ -4,8 +4,13 @@ import type { RevealCard, SpeakerCard, StageSpeaker } from './types'
  * Speakers with a full scroll-driven stage row.
  *
  * Order is by standing, not by time of day: Special Guest of Honour, then the
- * opening keynote, then the master class and speakers, and the convener closes.
- * The chronological view lives in the programme section instead.
+ * opening keynote, then the speakers, and the convener closes. The chronological
+ * view lives in the programme section instead.
+ *
+ * Roles and topics are transcribed from the official "SPEAKER REVEAL" fliers,
+ * which are the published source of truth. Note the fliers all print 8:30 AM —
+ * that is the summit's start time, not each speaker's slot, so `session` is left
+ * empty rather than filled with a time that is not really theirs.
  *
  * `side` alternates down the stage, so it has to be re-checked whenever the order
  * changes: the timeline runs down the centre and the portraits sit either side of
@@ -59,26 +64,30 @@ export const stageSpeakers: StageSpeaker[] = [
     border: 'gold',
   },
   {
-    id: 'aniekan-usoroh',
-    name: 'Aniekan AU Usoroh',
-    eyebrow: 'MASTER CLASS',
+    id: 'onofiok-luke',
+    name: 'Rt. Hon. Onofiok Luke Ph.D',
+    eyebrow: 'SPEAKER',
     eyebrowStyle: 'outline',
     accent: 'lime',
-    role: 'Leadership strategist · Regional Director, Strengths Africa',
-    biography:
-      '23 years across banking, public-sector reform, healthcare financing and ' +
-      'telecoms. Creator and host of The CONNECT, now in its 6th year and past ' +
-      '230 episodes.',
-    session: [
-      { value: '12:00', label: 'MASTER CLASS' },
-      { value: 'ROOM B', label: 'LEADERSHIP TRACK' },
-    ],
+    role: 'Legislative & policy advisor · 🇳🇬 Nigeria',
+    sessionTitle:
+      '“From Dependency to Destiny: Building an Africa That Can Build Itself.”',
+    session: [],
     side: 'left',
-    portrait: {
-      src: '/assets/speaker-aniekan-usoroh.jpg',
-      thumb: '/assets/sm/speaker-aniekan-usoroh.jpg',
-      objectPosition: 'center top',
-    },
+    // Portrait to come.
+    border: 'lime',
+  },
+  {
+    id: 'williams-uchemba',
+    name: 'Williams Uchemba',
+    eyebrow: 'SPEAKER',
+    eyebrowStyle: 'outline',
+    accent: 'lime',
+    role: 'Founder, Williams Uchemba Foundation · 🇳🇬 Nigeria',
+    sessionTitle: '“Influence, Media and Africa”',
+    session: [],
+    side: 'right',
+    // Portrait to come.
     border: 'lime',
   },
   {
@@ -87,11 +96,10 @@ export const stageSpeakers: StageSpeaker[] = [
     eyebrow: 'SPEAKER',
     eyebrowStyle: 'outline',
     accent: 'lime',
-    role: 'The African Dream Network',
-    // TODO: needs his session title and time. Left vague rather than guessed.
-    biography: 'Session title and time to be confirmed.',
+    role: 'Pan-Africa leadership educator, Paul Udah Leadership Firm',
+    sessionTitle: '“African Youth Alignment for Personal and Global Impact”',
     session: [],
-    side: 'right',
+    side: 'left',
     portrait: {
       src: '/assets/speaker-paul-udah.jpg',
       thumb: '/assets/sm/speaker-paul-udah.jpg',
@@ -101,19 +109,54 @@ export const stageSpeakers: StageSpeaker[] = [
     border: 'lime',
   },
   {
-    id: 'emana',
-    // TODO: confirm the full name and spelling before launch — we only have "Emana".
-    name: 'Emana',
+    id: 'aniekan-usoroh',
+    name: 'Aniekan Usoroh',
+    eyebrow: 'SPEAKER',
+    eyebrowStyle: 'outline',
+    accent: 'lime',
+    role: 'Leadership strategist · Executive consultant · 🇳🇬 Nigeria',
+    sessionTitle: '“Amplifying Africa’s Value”',
+    biography:
+      '23 years across banking, public-sector reform, healthcare financing and ' +
+      'telecoms. Creator and host of The CONNECT, now in its 6th year and past ' +
+      '230 episodes.',
+    session: [],
+    side: 'right',
+    portrait: {
+      src: '/assets/speaker-aniekan-usoroh.jpg',
+      thumb: '/assets/sm/speaker-aniekan-usoroh.jpg',
+      objectPosition: 'center top',
+    },
+    border: 'lime',
+  },
+  {
+    id: 'jasper-ifeanyi',
+    name: 'Jasper Ifeanyi',
+    eyebrow: 'SPEAKER · SPONSOR',
+    eyebrowStyle: 'outline',
+    accent: 'lime',
+    role: 'CEO & co-founder, Success Haven · 🇳🇬 Nigeria',
+    sessionTitle:
+      '“Monetization Structures For Purpose Sustenance: Structures For Wealth ' +
+      'Creation in Purposes.”',
+    session: [],
+    side: 'left',
+    // Portrait to come.
+    border: 'lime',
+  },
+  {
+    id: 'emanamfron-akpan',
+    name: 'Emanamfron Akpan',
     eyebrow: 'CONVENER',
     eyebrowStyle: 'outline',
     accent: 'lime',
     role: 'The African Dream Network',
     biography: 'Welcome address and the state of the network.',
     session: [{ value: '10:00', label: 'WELCOME ADDRESS' }],
-    side: 'left',
+    side: 'right',
     portrait: {
-      src: '/assets/speaker-emana.jpg',
-      thumb: '/assets/sm/speaker-emana.jpg',
+      src: '/assets/speaker-emanamfron-akpan.jpg',
+      thumb: '/assets/sm/speaker-emanamfron-akpan.jpg',
       objectPosition: 'center top',
     },
     border: 'lime',

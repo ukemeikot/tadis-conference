@@ -133,10 +133,22 @@ source that is not 4:5 needs an explicit `objectPosition` in `content/speakers.t
 
 ## Needs your input
 
-- **Emana's full name.** Only "Emana" was supplied; it is on the page as a single
-  name with a `TODO` in `content/speakers.ts`. Confirm the spelling before launch.
-- **Paul Udah's session title and time.** He is billed as SPEAKER with "Session
-  title and time to be confirmed" rather than a guessed session.
+**Three portraits are missing.** Onofiok Luke, Williams Uchemba and Jasper Ifeanyi
+have their names, roles and topics on the page but render a dashed "portrait to
+come" card. Drop clean headshots into `public/assets/` as
+`speaker-onofiok-luke.jpg` etc. (plus an `sm/` copy) and add a `portrait` block to
+their entry in `content/speakers.ts`.
+
+Do **not** crop these out of the reveal fliers — the fliers are composed around
+their overlay text, so any crop that avoids the "SPEAKER REVEAL" badge and the name
+block is a tight head-only close-up that has to be upscaled. Tried and discarded.
+
+**Session times.** The fliers all print 8:30 AM, which is the summit start time
+rather than each speaker's slot, so only Fela (08:30), Lady Helen (10:45) and the
+convener (10:00) carry times. The rest show none until the running order is set.
+
+**Paul Udah's nationality.** His flier carries a green/yellow/blue flag (Gabon)
+where the others carry Nigeria. Left off the page in case it is a flier error.
 
 ## Still placeholder
 
