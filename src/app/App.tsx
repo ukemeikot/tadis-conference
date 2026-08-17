@@ -1,7 +1,7 @@
 import { AboutStack } from '../features/about/AboutStack'
 import { Contact } from '../features/contact/Contact'
 import { Faq } from '../features/faq/Faq'
-import { Gallery, Sponsors, Voices } from '../features/gallery/Gallery'
+import { Gallery, Sponsors } from '../features/gallery/Gallery'
 import { Hero } from '../features/hero/Hero'
 import { SiteFooter } from '../features/navigation/SiteFooter'
 import { SiteHeader } from '../features/navigation/SiteHeader'
@@ -53,7 +53,11 @@ export function App() {
 
         <VenuePlan />
         <Gallery />
-        <Voices />
+        {/* Voices is intentionally not mounted. Its three quotes are invented
+            placeholders — one attributed to "Delegate, TADIS 2025" — and now that
+            the site is no longer billed as draft, showing fabricated testimonials
+            as though they were real is the one thing here that should not ship.
+            Put real quotes in content/gallery.ts and add <Voices /> back. */}
         <Sponsors />
 
         <RegistrationSection />

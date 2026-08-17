@@ -145,8 +145,18 @@ export const partnerSlots: PartnerSlot[] = [
 ]
 
 /**
+ * How long to wait between exchanges.
+ *
+ * Deliberately long. The glide itself takes about 1.6s, so this leaves several
+ * seconds of stillness in between — the section should feel alive when you happen
+ * to look at it, not pull your eye away from whatever you were reading.
+ */
+export const partnerSwapIntervalMs = 6000
+
+/**
  * Which slots trade places, in order, one pair per tick. Every pair crosses the
  * middle of the box so each move reads as a diagonal exchange rather than a nudge.
+ * Only one pair moves at a time, which keeps the motion quiet.
  */
 export const partnerSwaps: ReadonlyArray<readonly [number, number]> = [
   [0, 6],
@@ -158,7 +168,14 @@ export const partnerSwaps: ReadonlyArray<readonly [number, number]> = [
   [1, 5],
 ]
 
-/** Headline quote on the deep-green voices band. */
+/**
+ * Testimonials — NOT currently shown.
+ *
+ * These are invented placeholders carried over from the design. The Voices section
+ * is unmounted in App.tsx because publishing fabricated quotes as real testimonials
+ * is not something the site should do. Replace them with quotes you actually have
+ * and mount <Voices /> again.
+ */
 export const featuredTestimonial: Testimonial = {
   id: 'featured',
   quote:

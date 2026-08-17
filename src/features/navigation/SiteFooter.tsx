@@ -148,7 +148,7 @@ export function SiteFooter() {
           color: t(0.45),
         }}
       >
-        <div>© 2026 The African Dream Network. Sample site — content in draft.</div>
+        <div>© 2026 The African Dream Network. All rights reserved.</div>
         <div>
           {site.edition} · {site.theme}
         </div>

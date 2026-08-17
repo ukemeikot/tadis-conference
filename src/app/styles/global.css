@@ -278,12 +278,13 @@ a:hover {
   outline: 1px solid rgba(255, 255, 255, 0.14);
   outline-offset: -1px;
   box-shadow: 0 22px 46px rgba(0, 0, 0, 0.55);
-  /* Slower and softer than a hover transition: this same easing carries the
-     once-a-second diagonal swap, so it needs to read as a glide through space. */
+  /* Long and eased at both ends: this carries the diagonal swap, which should read
+     as a card drifting across the box rather than snapping to a new spot. Paired
+     with the several-second gap between swaps, the section stays calm. */
   transition:
-    left 900ms cubic-bezier(0.4, 0, 0.2, 1),
-    top 900ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 900ms cubic-bezier(0.4, 0, 0.2, 1),
+    left 1600ms cubic-bezier(0.4, 0, 0.25, 1),
+    top 1600ms cubic-bezier(0.4, 0, 0.25, 1),
+    transform 1600ms cubic-bezier(0.4, 0, 0.25, 1),
     box-shadow 300ms ease;
 }
 

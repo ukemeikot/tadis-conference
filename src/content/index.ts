@@ -20,5 +20,6 @@ export {
   partners,
   partnerSlots,
   partnerSwaps,
+  partnerSwapIntervalMs,
 } from './gallery'
 export { faq } from './faq'

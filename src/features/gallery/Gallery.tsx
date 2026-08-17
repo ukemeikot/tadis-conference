@@ -7,6 +7,7 @@ import {
   galleryHeadline,
   galleryNote,
   partnerSlots,
+  partnerSwapIntervalMs,
   partnerSwaps,
   partners,
   testimonials,
@@ -279,9 +280,9 @@ export function Sponsors() {
     return () => observer.disconnect()
   }, [])
 
-  // One diagonal exchange per second. Skipped entirely under reduced motion, and
-  // on narrow screens where the CSS has already flattened the scatter to a grid
-  // and positions no longer apply.
+  // One diagonal exchange every few seconds — see partnerSwapIntervalMs for why it
+  // is slow. Skipped entirely under reduced motion, and on narrow screens where the
+  // CSS has already flattened the scatter to a grid and positions no longer apply.
   useEffect(() => {
     if (!richMotion || !onScreen) return
 
@@ -298,7 +299,7 @@ export function Sponsors() {
         next[holderB] = slotA
         return next
       })
-    }, 1000)
+    }, partnerSwapIntervalMs)
 
     return () => window.clearInterval(timer)
   }, [richMotion, onScreen])
