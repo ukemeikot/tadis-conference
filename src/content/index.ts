@@ -18,6 +18,7 @@ export {
   featuredTestimonial,
   testimonials,
   partners,
-  partnerSlotCount,
+  partnerSlots,
+  partnerSwaps,
 } from './gallery'
 export { faq } from './faq'

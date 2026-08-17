@@ -1,4 +1,4 @@
-import type { CollageTile, Partner, Testimonial } from './types'
+import type { CollageTile, Partner, PartnerSlot, Testimonial } from './types'
 
 /**
  * Gallery photography from the network's two previous gatherings — Dream Circle 1.0
@@ -82,16 +82,31 @@ export const partners: Partner[] = [
     id: 'paul-udah-leadership-firm',
     name: 'Paul Udah Leadership Firm',
     logo: '/assets/partner-paul-udah-leadership-firm.jpg',
+    w: 15,
   },
   {
     id: 'credian-tech',
     name: 'CredianTech',
     logo: '/assets/partner-credian-tech.jpg',
+    w: 21,
+  },
+  {
+    id: 'gog-advantage',
+    name: 'The GOG Advantage — Media, Tech, General Services',
+    logo: '/assets/partner-gog-advantage.jpg',
+    w: 25,
+  },
+  {
+    id: 'uforo-abia',
+    name: 'Uforo Abia',
+    logo: '/assets/partner-uforo-abia.jpg',
+    w: 14,
   },
   {
     id: 'purpose-academy',
     name: 'The Purpose Academy',
     logo: '/assets/partner-purpose-academy.jpg',
+    w: 20,
   },
   {
     // Jasper Ifeanyi's firm — he speaks as well, which is why his stage card is
@@ -99,17 +114,48 @@ export const partners: Partner[] = [
     id: 'success-haven',
     name: 'Success Haven Group',
     logo: '/assets/partner-success-haven.jpg',
+    w: 21,
   },
   {
-    id: 'gog-advantage',
-    name: 'The GOG Advantage — Media, Tech, General Services',
-    logo: '/assets/partner-gog-advantage.jpg',
+    // The venue.
+    id: 'insight-bible-church',
+    name: 'Insight Bible Church',
+    logo: '/assets/partner-insight-bible-church.jpg',
+    w: 14,
   },
-  {
-    id: 'uforo-abia',
-    name: 'Uforo Abia',
-    logo: '/assets/partner-uforo-abia.jpg',
-  },
+]
+
+/**
+ * The seven positions logos occupy, clear of the middle where the title sits.
+ *
+ * Kept inside x 16–84 and y 16–84 so that the widest lockup still fits inside the
+ * box whichever slot it lands in — the logos shuffle between these, so no slot can
+ * assume it holds a narrow one.
+ */
+export const partnerSlots: PartnerSlot[] = [
+  // Top row leans back; bottom row leans forward. Yaw always turns the card toward
+  // the middle, so the whole arrangement addresses the title.
+  { x: 18, y: 19, rx: -15, ry: 17, rz: -6, z: 0 }, //   0 top left
+  { x: 50, y: 15, rx: -12, ry: -6, rz: 4, z: 30 }, //   1 top centre
+  { x: 82, y: 19, rx: -15, ry: -18, rz: -3, z: -10 }, // 2 top right
+  { x: 17, y: 57, rx: 4, ry: 21, rz: 5, z: 18 }, //     3 mid left
+  { x: 83, y: 57, rx: 4, ry: -21, rz: -5, z: 18 }, //   4 mid right
+  { x: 30, y: 84, rx: 16, ry: 14, rz: 3, z: -6 }, //    5 bottom left
+  { x: 70, y: 84, rx: 15, ry: -15, rz: -4, z: 4 }, //   6 bottom right
+]
+
+/**
+ * Which slots trade places, in order, one pair per tick. Every pair crosses the
+ * middle of the box so each move reads as a diagonal exchange rather than a nudge.
+ */
+export const partnerSwaps: ReadonlyArray<readonly [number, number]> = [
+  [0, 6],
+  [2, 5],
+  [3, 4],
+  [1, 6],
+  [0, 4],
+  [2, 3],
+  [1, 5],
 ]
 
 /** Headline quote on the deep-green voices band. */
@@ -137,8 +183,3 @@ export const testimonials: Testimonial[] = [
   },
 ]
 
-/**
- * Empty "partner logo" tiles to append after the confirmed ones. Zero while the
- * strip looks complete — raise it if you want to signal that more are coming.
- */
-export const partnerSlotCount = 0

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import {
   collage,
@@ -6,7 +6,8 @@ import {
   galleryEyebrow,
   galleryHeadline,
   galleryNote,
-  partnerSlotCount,
+  partnerSlots,
+  partnerSwaps,
   partners,
   testimonials,
 } from '../../content'
@@ -245,107 +246,137 @@ export function Voices() {
   )
 }
 
-/** The sponsor and partner strip: confirmed logos, then empty tiles. */
+/**
+ * Sponsors and partners, scattered around the section title.
+ *
+ * No fixed-size tiles anywhere: each logo is rendered at its own aspect ratio and
+ * given a width, with height following from the image. The seven lockups run from
+ * 1.02 to 3.26 wide, so any single box shape necessarily crops some of them —
+ * this way nothing is ever cut. Because each logo carries its own brand
+ * background, the logo is the card.
+ *
+ * Below 860px the scatter unpins into a plain two-column grid, since seven
+ * floating cards and centred type cannot share a phone's width.
+ */
 export function Sponsors() {
-  const total = partners.length + partnerSlotCount
+  const scatterRef = useRef<HTMLDivElement>(null)
+  const richMotion = useRichMotion()
+
+  /** slotOf[partnerIndex] = which slot that logo currently occupies. */
+  const [slotOf, setSlotOf] = useState<number[]>(() => partners.map((_, i) => i))
+
+  // Only shuffle while the section is actually on screen — otherwise this ticks
+  // away unseen for the whole page.
+  const [onScreen, setOnScreen] = useState(false)
+  useEffect(() => {
+    const scatter = scatterRef.current
+    if (!scatter) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      { threshold: 0 },
+    )
+    observer.observe(scatter)
+    return () => observer.disconnect()
+  }, [])
+
+  // One diagonal exchange per second. Skipped entirely under reduced motion, and
+  // on narrow screens where the CSS has already flattened the scatter to a grid
+  // and positions no longer apply.
+  useEffect(() => {
+    if (!richMotion || !onScreen) return
+
+    let step = 0
+    const timer = window.setInterval(() => {
+      const [slotA, slotB] = partnerSwaps[step % partnerSwaps.length]
+      step += 1
+      setSlotOf((current) => {
+        const holderA = current.indexOf(slotA)
+        const holderB = current.indexOf(slotB)
+        if (holderA === -1 || holderB === -1) return current
+        const next = [...current]
+        next[holderA] = slotB
+        next[holderB] = slotA
+        return next
+      })
+    }, 1000)
+
+    return () => window.clearInterval(timer)
+  }, [richMotion, onScreen])
+
+  // A slow drift as the section passes, matching the gallery collage above it.
+  useScrollFrame(() => {
+    const scatter = scatterRef.current
+    if (!scatter) return
+    if (!richMotion) {
+      scatter.style.transform = ''
+      return
+    }
+    const box = scatter.getBoundingClientRect()
+    const distance = Math.max(
+      -1,
+      Math.min(
+        1,
+        (box.top + box.height / 2 - window.innerHeight / 2) / window.innerHeight,
+      ),
+    )
+    scatter.style.transform = `scale(${(1 - Math.abs(distance) * 0.04).toFixed(3)})`
+  })
 
   return (
-    <section style={{ padding: '84px 28px', background: c.ink }}>
-      <Wrap style={{ padding: 0 }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 18,
-            justifyContent: 'center',
-            marginBottom: 40,
-          }}
-        >
-          <span style={{ height: 1, flex: 1, background: w(0.12) }} />
-          <span
-            style={{
-              fontSize: 11,
-              letterSpacing: '0.2em',
-              color: t(0.6),
-              fontWeight: 700,
-            }}
-          >
-            SPONSORS &amp; PARTNERS
-          </span>
-          <span style={{ height: 1, flex: 1, background: w(0.12) }} />
-        </div>
+    <section style={{ padding: '84px 0 92px', background: c.ink }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px' }}>
+        <div ref={scatterRef} className="partners-scatter">
+          {partners.map((partner, index) => {
+            const slot = partnerSlots[slotOf[index]] ?? partnerSlots[index]
+            return (
+              <figure
+                key={partner.id}
+                className="partners-card"
+                title={partner.name}
+                style={
+                  {
+                    '--px': `${slot.x}%`,
+                    '--py': `${slot.y}%`,
+                    '--pw': `${partner.w}%`,
+                    '--prx': `${slot.rx}deg`,
+                    '--pry': `${slot.ry}deg`,
+                    '--prz': `${slot.rz}deg`,
+                    '--pz': `${slot.z}px`,
+                  } as CSSProperties
+                }
+              >
+                <img
+                  src={partner.logo}
+                  alt={partner.name}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            )
+          })}
 
-        {/* Three across, so a logo tile is wide enough for the widest lockup
-            (3.3:1) to sit at a readable size rather than shrinking to fit. */}
-        <div
-          className="grid-5"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${Math.min(total, 3)}, 1fr)`,
-            gap: 16,
-          }}
-        >
-          {partners.map((partner) => (
+          <div className="partners-label">
             <div
-              key={partner.id}
-              title={partner.name}
               style={{
-                height: 150,
-                borderRadius: 16,
-                overflow: 'hidden',
-                border: `1px solid ${w(0.12)}`,
-                background: w(0.04),
-                display: 'grid',
-                placeItems: 'center',
-                padding: 14,
+                fontSize: 11,
+                letterSpacing: '0.2em',
+                fontWeight: 700,
+                color: c.lime,
               }}
             >
-              {/* `contain`, not `cover`: these lockups differ in proportion — one
-                  is a stacked mark-over-wordmark, the others are wide — so cropping
-                  to fill sliced the wordmark clean off. Contain shows all of every
-                  logo, and the taller tile leaves it room to read. */}
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                loading="lazy"
-                decoding="async"
-                style={{
-                  // Fill the tile box and let `contain` letterbox the artwork
-                  // inside it. The earlier max-width/max-height + auto form left
-                  // the resolved size up to the grid, which cropped the taller
-                  // lockups; this way nothing can be cut whatever the ratio.
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                  display: 'block',
-                  borderRadius: 8,
-                }}
-              />
+              SPONSORS &amp; PARTNERS
             </div>
-          ))}
-
-          {Array.from({ length: partnerSlotCount }, (_, index) => (
-            <div
-              key={`slot-${index}`}
-              style={{
-                height: 150,
-                display: 'grid',
-                placeItems: 'center',
-                borderRadius: 16,
-                border: `1px dashed ${w(0.18)}`,
-                fontSize: 12.5,
-                color: t(0.4),
-              }}
-            >
-              Partner logo
-            </div>
-          ))}
+            <h2>Partners</h2>
+            <p>
+              The people and firms backing {site.edition}. Entry stays free because
+              they do.
+            </p>
+            <a href={`mailto:${site.contact.email}`} className="cta-lime">
+              Become a partner
+            </a>
+          </div>
         </div>
-
-        <p style={{ margin: '18px 0 0', textAlign: 'center', fontSize: 14, color: t(0.5) }}>
-          <a href={`mailto:${site.contact.email}`}>Become a partner</a>
-        </p>
-      </Wrap>
+      </div>
     </section>
   )
 }

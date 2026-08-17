@@ -170,16 +170,48 @@ export type CollageTile = {
   alt?: string
 }
 
-/** A sponsor or partner logo in the strip. */
+/**
+ * A sponsor or partner logo.
+ *
+ * Each logo arrives on its own brand background rather than as a transparent
+ * mark, so a logo *is* its card. It is rendered at its natural aspect ratio and
+ * never placed in a fixed-height box: the seven lockups range from 1.02 to 3.26
+ * wide, and any single box shape crops some of them.
+ */
 export type Partner = {
   id: string
   name: string
-  /**
-   * Each logo arrives on its own brand background rather than as a transparent
-   * mark, so tiles let that background fill them.
-   */
   logo: string
   url?: string
+  /**
+   * Width as % of the scatter box. Travels with the logo when it changes slots —
+   * a 3.26:1 lockup needs roughly twice the width of a square one to read at the
+   * same optical size, and would overflow the box if it inherited a square slot's
+   * width.
+   */
+  w: number
+}
+
+/**
+ * A position in the partners scatter. Logos are assigned to slots and swap between
+ * them, so the arrangement stays balanced however they are shuffled.
+ *
+ * Orientation is a property of the slot rather than the logo: cards are angled in
+ * 3D to face the title in the middle, so a card's tilt depends on where it sits,
+ * not on which logo it happens to be showing.
+ */
+export type PartnerSlot = {
+  /** Centre, as % of the box. */
+  x: number
+  y: number
+  /** Pitch, in degrees. Negative leans the top of the card away from the viewer. */
+  rx: number
+  /** Yaw, in degrees. Turns the card toward the centre of the box. */
+  ry: number
+  /** Roll, in degrees — the flat rotation that keeps the pile informal. */
+  rz: number
+  /** Depth in px. Cards nearer the viewer read larger and cast more shadow. */
+  z: number
 }
 
 export type Testimonial = {
