@@ -93,6 +93,23 @@ export const partners: Partner[] = [
     name: 'The Purpose Academy',
     logo: '/assets/partner-purpose-academy.jpg',
   },
+  {
+    // Jasper Ifeanyi's firm — he speaks as well, which is why his stage card is
+    // badged SPEAKER · SPONSOR.
+    id: 'success-haven',
+    name: 'Success Haven Group',
+    logo: '/assets/partner-success-haven.jpg',
+  },
+  {
+    id: 'gog-advantage',
+    name: 'The GOG Advantage — Media, Tech, General Services',
+    logo: '/assets/partner-gog-advantage.jpg',
+  },
+  {
+    id: 'uforo-abia',
+    name: 'Uforo Abia',
+    logo: '/assets/partner-uforo-abia.jpg',
+  },
 ]
 
 /** Headline quote on the deep-green voices band. */

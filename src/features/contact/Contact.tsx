@@ -1,6 +1,11 @@
-import { site } from '../../shared/config/site'
+import { fullAddress, site } from '../../shared/config/site'
 import { c, lime, t } from '../../shared/config/theme'
 import { Eyebrow, Heading } from '../../shared/ui'
+
+/** Opens the venue in whichever maps app the visitor has. */
+const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  fullAddress,
+)}`
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -97,37 +102,85 @@ export function Contact() {
           </div>
         </div>
 
-        {/* Deliberately a placeholder — no map provider is wired up yet, and an
-            empty embed would be worse than saying so. */}
-        <div
+        {/* A dark-themed map still, rather than a live embed: a Google Maps iframe
+            cannot be themed without the JS API, and a bright map panel in this
+            section would fight everything around it. The whole panel is a link out
+            to directions, which is what a visitor actually wants from it. */}
+        <a
+          href={directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
-            height: 320,
+            display: 'block',
+            position: 'relative',
             borderRadius: 24,
-            border: `1px dashed ${lime(0.4)}`,
-            background: 'rgba(4,23,16,0.5)',
-            display: 'grid',
-            placeItems: 'center',
-            textAlign: 'center',
-            padding: 28,
+            overflow: 'hidden',
+            border: `1px solid ${lime(0.3)}`,
+            boxShadow: '0 30px 70px rgba(0,0,0,0.45)',
+            color: 'inherit',
           }}
         >
-          <div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: c.lime }}>
-              Map goes here
+          <img
+            src="/assets/venue-map.jpg"
+            alt={`Map showing ${site.venue.name} on ${site.venue.street}, ${site.venue.city}`}
+            loading="lazy"
+            decoding="async"
+            style={{
+              width: '100%',
+              height: 340,
+              objectFit: 'cover',
+              objectPosition: 'center 46%',
+              display: 'block',
+            }}
+          />
+
+          {/* Bottom scrim so the label stays readable over the streets. */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 'auto 0 0 0',
+              padding: '38px 22px 18px',
+              background:
+                'linear-gradient(180deg, transparent, rgba(4,23,16,0.55) 45%, rgba(4,23,16,0.94))',
+            }}
+          />
+
+          <div
+            style={{
+              position: 'absolute',
+              left: 22,
+              right: 22,
+              bottom: 18,
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              gap: 16,
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 16.5, fontWeight: 800, letterSpacing: '-0.01em' }}>
+                {site.venue.name}
+              </div>
+              <div style={{ marginTop: 4, fontSize: 14, color: t(0.72) }}>
+                {site.venue.street}, {site.venue.city}
+              </div>
             </div>
-            <p
+            <span
               style={{
-                margin: '12px 0 0',
-                fontSize: 15,
-                lineHeight: 1.55,
-                color: t(0.6),
-                maxWidth: '34ch',
+                flex: '0 0 auto',
+                padding: '9px 16px',
+                borderRadius: 999,
+                background: c.lime,
+                color: c.inkText,
+                fontSize: 13,
+                fontWeight: 800,
               }}
             >
-              Drop in an embedded map or a directions graphic for {site.venue.street}.
-            </p>
+              Get directions
+            </span>
           </div>
-        </div>
+        </a>
       </div>
     </section>
   )

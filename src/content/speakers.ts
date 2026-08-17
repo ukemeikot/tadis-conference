@@ -74,7 +74,12 @@ export const stageSpeakers: StageSpeaker[] = [
       '“From Dependency to Destiny: Building an Africa That Can Build Itself.”',
     session: [],
     side: 'left',
-    // Portrait to come.
+    portrait: {
+      src: '/assets/speaker-onofiok-luke.jpg',
+      thumb: '/assets/sm/speaker-onofiok-luke.jpg',
+      // 2:3 source in a 4:5 frame — crops top and bottom, so hold the face high.
+      objectPosition: 'center 12%',
+    },
     border: 'lime',
   },
   {

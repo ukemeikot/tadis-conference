@@ -275,11 +275,13 @@ export function Sponsors() {
           <span style={{ height: 1, flex: 1, background: w(0.12) }} />
         </div>
 
+        {/* Three across, so a logo tile is wide enough for the widest lockup
+            (3.3:1) to sit at a readable size rather than shrinking to fit. */}
         <div
           className="grid-5"
           style={{
             display: 'grid',
-            gridTemplateColumns: `repeat(${Math.min(total, 5)}, 1fr)`,
+            gridTemplateColumns: `repeat(${Math.min(total, 3)}, 1fr)`,
             gap: 16,
           }}
         >
@@ -308,10 +310,12 @@ export function Sponsors() {
                 loading="lazy"
                 decoding="async"
                 style={{
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  width: 'auto',
-                  height: 'auto',
+                  // Fill the tile box and let `contain` letterbox the artwork
+                  // inside it. The earlier max-width/max-height + auto form left
+                  // the resolved size up to the grid, which cropped the taller
+                  // lockups; this way nothing can be cut whatever the ratio.
+                  width: '100%',
+                  height: '100%',
                   objectFit: 'contain',
                   display: 'block',
                   borderRadius: 8,
