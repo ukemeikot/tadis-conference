@@ -159,8 +159,8 @@ export const stageSpeakers: StageSpeaker[] = [
     border: 'lime',
   },
   {
-    id: 'emanamfron-akpan',
-    name: 'Emanamfron Akpan',
+    id: 'emanamfon-akpan',
+    name: 'Emanamfon Akpan',
     eyebrow: 'CONVENER',
     eyebrowStyle: 'outline',
     accent: 'lime',
@@ -169,8 +169,8 @@ export const stageSpeakers: StageSpeaker[] = [
     session: [{ value: '10:00', label: 'WELCOME ADDRESS' }],
     side: 'right',
     portrait: {
-      src: '/assets/speaker-emanamfron-akpan.jpg',
-      thumb: '/assets/sm/speaker-emanamfron-akpan.jpg',
+      src: '/assets/speaker-emanamfon-akpan.jpg',
+      thumb: '/assets/sm/speaker-emanamfon-akpan.jpg',
       objectPosition: 'center top',
     },
     border: 'lime',
