@@ -72,9 +72,13 @@ Everything editorial is in `src/content/`. Some examples:
 
 - **A speaker's name lands** — edit `speakers.ts`; set the real `name`, `role`,
   `sessionTitle`, and swap `portrait`.
-- **Programme changes** — edit `programme.ts`. Set `emphasis: 'gold'` and an
-  `eyebrow` containing `CONFIRMED` for a locked session; leave
-  `programmeIsDraft = true` until the running order is final.
+- **Programme changes** — edit `programme.ts`, which now carries the published
+  running order: 25 slots, 08:30 to 15:20. Store the **start** time only; each
+  slot runs into the next, so its length is the gap to the row below and the
+  flier's minute column is that subtraction already done. Speaker billing comes
+  from `speakers.ts`, not from the flier, so a title is corrected in one place.
+  `emphasis: 'gold'` and `'rust'` mark the two headline sessions; set
+  `programmeIsDraft = true` to put a dashed caveat back above the timeline.
 - **Date, venue, phone numbers** — `src/shared/config/site.ts` only. The hero,
   countdown, programme header, registration steps, contact block and footer all
   read from it.
@@ -149,10 +153,6 @@ rather than a guessed one.
 published, so the fireside four are billed uniformly as FIRESIDE CHAT and all
 panelists as PANELIST.
 
-**Session times.** The fliers all print 8:30 AM, which is the summit start time
-rather than each speaker's slot, so only Fela (08:30), Lady Helen (10:45) and the
-convener (10:00) carry times. The rest show none until the running order is set.
-
 **Paul Udah's nationality.** His flier carries a green/yellow/blue flag (Gabon)
 where the others carry Nigeria. Left off the page in case it is a flier error.
 
@@ -174,7 +174,6 @@ between sections means renaming their asset too.
 
 All visibly flagged on the page:
 
-- **Programme** — draft running order around the two confirmed sessions.
 - **Panelists, fireside guests, reveals 05–12** — awaiting names, titles and photos.
 - **Testimonials** — placeholder quotes.
 - **Sponsor logos** — five empty slots.
