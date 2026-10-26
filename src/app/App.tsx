@@ -1,32 +1,32 @@
 import { AboutStack } from '../features/about/AboutStack'
 import { Contact } from '../features/contact/Contact'
 import { Faq } from '../features/faq/Faq'
-import { Gallery, Sponsors } from '../features/gallery/Gallery'
+import { Gallery, Sponsors, Voices } from '../features/gallery/Gallery'
 import { Hero } from '../features/hero/Hero'
+import { ConvenerLetter } from '../features/letter/ConvenerLetter'
+import { MemoryWalk } from '../features/memories/MemoryWalk'
+import { PhotoGallery } from '../features/photos/PhotoGallery'
 import { SiteFooter } from '../features/navigation/SiteFooter'
 import { SiteHeader } from '../features/navigation/SiteHeader'
+import { DayInNumbers } from '../features/numbers/DayInNumbers'
 import { ProgrammeIntro, ProgrammeTimeline } from '../features/programme/Programme'
-import { RegistrationSection } from '../features/registration/RegistrationSection'
+import { Sessions } from '../features/sessions/Sessions'
 import {
   FiresideGrid,
   PanelistsGrid,
   SpeakerStage,
   SpeakersIntro,
 } from '../features/speakers'
-import { VenuePlan } from '../features/venue/VenuePlan'
-import { useLumaCheckout } from '../shared/hooks/useLumaCheckout'
 
 /**
- * TADIS 2026 — one long-scroll page.
+ * TADIS 2026 — one long-scroll page, in its post-summit form: a recap of the day
+ * rather than an invitation to it.
  *
- * Section order is the reading order and matches the design exactly. Each section
+ * Section order is the reading order and follows the recap design. Each section
  * owns its own scroll behaviour; they share one rAF-throttled scroll driver
  * (see shared/hooks/useScrollFrame).
  */
 export function App() {
-  // Binds Luma's overlay to every "Register free" trigger once the tree is up.
-  useLumaCheckout()
-
   return (
     <>
       <a href="#main" className="skip-link">
@@ -37,30 +37,28 @@ export function App() {
 
       <main id="main">
         <Hero />
+        <MemoryWalk />
+        {/* What the day meant to the people behind it, before the detail. */}
+        <ConvenerLetter />
+        <Voices />
         <AboutStack />
 
         <SpeakersIntro />
         <SpeakerStage />
         <PanelistsGrid />
         <FiresideGrid />
-        {/* RevealRail is intentionally not mounted: it advertised "eight more
-            still to come", which stopped being true once the eight panelists were
-            announced. The component and its content are kept, so re-adding it is
-            a one-line change if there is another batch to tease. */}
 
         <ProgrammeIntro />
         <ProgrammeTimeline />
 
-        <VenuePlan />
+        {/* The venue floor plan stood here before the summit; with the day over,
+            the venue lives on in the contact map and this slot shows what it held. */}
+        <DayInNumbers />
         <Gallery />
-        {/* Voices is intentionally not mounted. Its three quotes are invented
-            placeholders — one attributed to "Delegate, TADIS 2025" — and now that
-            the site is no longer billed as draft, showing fabricated testimonials
-            as though they were real is the one thing here that should not ship.
-            Put real quotes in content/gallery.ts and add <Voices /> back. */}
+        <PhotoGallery />
         <Sponsors />
 
-        <RegistrationSection />
+        <Sessions />
         <Faq />
         <Contact />
       </main>

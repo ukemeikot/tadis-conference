@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
+import type { Testimonial } from '../../content/types'
 import {
   collage,
-  featuredTestimonial,
+  testimonials,
   galleryEyebrow,
   galleryHeadline,
   galleryNote,
@@ -10,10 +11,10 @@ import {
   partnerSwapIntervalMs,
   partnerSwaps,
   partners,
-  testimonials,
+  photoAlbums,
 } from '../../content'
 import { site } from '../../shared/config/site'
-import { c, lime, t, w } from '../../shared/config/theme'
+import { c, gold, lime, t, w } from '../../shared/config/theme'
 import { useRichMotion } from '../../shared/hooks/useMotion'
 import { useScrollFrame } from '../../shared/hooks/useScrollFrame'
 import { AFRICA_ASPECT, AFRICA_CLIP_PATH } from '../../shared/lib/africa'
@@ -104,8 +105,8 @@ export function Gallery() {
       >
         {/* The pile, cut to the shape of the continent. Percentage geometry keeps
             both the tiles and the clip intact at any width. */}
-        {/* Not aria-hidden: the decorative tiles carry alt="" and are ignored, but
-            the convener's tile has real alt text that should still be announced. */}
+        {/* The tiles are decorative and carry alt="" — the albums linked below are
+            where the photographs are meant to be looked at properly. */}
         <div
           ref={clusterRef}
           className="collage"
@@ -183,67 +184,119 @@ export function Gallery() {
         >
           {galleryNote}
         </p>
+
+        <ul className="album-links">
+          {photoAlbums.map((album) => (
+            <li key={album.id}>
+              <a href={album.url} target="_blank" rel="noopener noreferrer">
+                <span style={{ fontSize: 16.5, fontWeight: 800, letterSpacing: '-0.01em', color: c.text }}>
+                  {album.label} ↗
+                </span>
+                <span style={{ fontSize: 14, color: t(0.6) }}>{album.detail}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </Wrap>
     </section>
   )
 }
 
-/** Testimonial band on deep green. */
+/**
+ * What people said afterwards. Each message leads with a pull quote set large,
+ * then the message it came from, so a quote is never read out of its context.
+ */
 export function Voices() {
   return (
-    <section style={{ padding: '100px 28px', background: c.green900 }}>
-      <Wrap size="md" style={{ padding: 0, textAlign: 'center' }}>
-        <Eyebrow color={c.gold}>VOICES</Eyebrow>
-
-        <p
+    <section id="feedback" style={{ padding: '100px 28px', background: c.green900 }}>
+      <Wrap size="md" style={{ padding: 0 }}>
+        <Eyebrow color={c.gold} style={{ textAlign: 'center' }}>
+          FEEDBACK · VOICES FROM THE SUMMIT
+        </Eyebrow>
+        <h2
           style={{
-            margin: '32px 0 0',
-            fontSize: 'clamp(24px, 3.2vw, 40px)',
-            lineHeight: 1.25,
+            margin: '16px 0 0',
+            textAlign: 'center',
+            fontSize: 'clamp(30px, 3.6vw, 50px)',
             fontWeight: 800,
-            letterSpacing: '-0.025em',
-            textWrap: 'pretty',
+            letterSpacing: '-0.03em',
           }}
         >
-          {featuredTestimonial.quote}
-        </p>
+          What people said
+        </h2>
 
-        <div style={{ marginTop: 26, fontSize: 15, color: t(0.7) }}>
-          {featuredTestimonial.attribution}
-        </div>
-
-        <div
-          className="voices-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 18,
-            marginTop: 56,
-            textAlign: 'left',
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 44, marginTop: 52 }}>
           {testimonials.map((voice) => (
-            <blockquote
-              key={voice.id}
-              style={{
-                margin: 0,
-                padding: 26,
-                borderRadius: 20,
-                background: w(0.06),
-                border: `1px solid ${w(0.12)}`,
-              }}
-            >
-              <p style={{ margin: 0, fontSize: 16.5, lineHeight: 1.55, color: t(0.85) }}>
-                {voice.quote}
-              </p>
-              <footer style={{ marginTop: 16, fontSize: 13.5, color: t(0.6) }}>
-                {voice.attribution}
-              </footer>
-            </blockquote>
+            <Voice key={voice.id} voice={voice} />
           ))}
         </div>
       </Wrap>
     </section>
+  )
+}
+
+/** Long messages show their opening and fold the rest behind a toggle. */
+const FOLD_AFTER = 3
+
+function Voice({ voice }: { voice: Testimonial }) {
+  const [open, setOpen] = useState(false)
+  const body = voice.body ?? []
+  const long = body.length > FOLD_AFTER + 1
+  const shown = long && !open ? body.slice(0, FOLD_AFTER) : body
+
+  return (
+    <figure
+      style={{
+        margin: 0,
+        padding: '40px 40px 34px',
+        borderRadius: 26,
+        background: w(0.05),
+        border: `1px solid ${w(0.12)}`,
+        borderTop: `3px solid ${gold(0.7)}`,
+      }}
+      className="voice-card"
+    >
+      <p
+        style={{
+          margin: 0,
+          fontSize: 'clamp(24px, 3vw, 40px)',
+          lineHeight: 1.15,
+          fontWeight: 800,
+          letterSpacing: '-0.03em',
+          textWrap: 'pretty',
+        }}
+      >
+        {voice.quote}
+      </p>
+      <figcaption style={{ marginTop: 18 }}>
+        <div style={{ fontSize: 16, fontWeight: 700, color: c.gold }}>{voice.attribution}</div>
+        {voice.role && <div style={{ marginTop: 4, fontSize: 14.5, color: t(0.65) }}>{voice.role}</div>}
+      </figcaption>
+
+      {body.length > 0 && (
+        <blockquote style={{ margin: '26px 0 0', paddingTop: 22, borderTop: `1px solid ${w(0.1)}` }}>
+          {shown.map((paragraph, index) => (
+            <p
+              key={index}
+              style={{ margin: index === 0 ? 0 : '14px 0 0', fontSize: 16.5, lineHeight: 1.7, color: t(0.85) }}
+            >
+              {paragraph}
+            </p>
+          ))}
+        </blockquote>
+      )}
+
+      {long && (
+        <button
+          type="button"
+          className="voice-toggle"
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        >
+          {open ? 'Show less' : 'Read the full message'}
+        </button>
+      )}
+    </figure>
   )
 }
 
@@ -369,8 +422,8 @@ export function Sponsors() {
             </div>
             <h2>Partners</h2>
             <p>
-              The people and firms backing {site.edition}. Entry stays free because
-              they do.
+              The people and firms who backed {site.edition}. Entry was free because
+              they made it so.
             </p>
             <a href={`mailto:${site.contact.email}`} className="cta-lime">
               Become a partner

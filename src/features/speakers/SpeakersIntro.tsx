@@ -42,9 +42,9 @@ export function SpeakersIntro() {
         </Heading>
 
         <Lead style={{ marginTop: 22 }}>
-          You will hear from them in three ways: keynotes from the main stage, an open
-          panel where the questions come from the floor, and fireside chats with two
-          chairs and no slides. Keep scrolling — you will meet each of them in turn.
+          Three formats across the day: keynotes from the main stage, an open panel
+          with questions from the floor, and a fireside chat with no slides. Keep
+          scrolling to meet each of them — and follow the links into the recordings.
         </Lead>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 32 }}>

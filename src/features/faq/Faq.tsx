@@ -23,7 +23,7 @@ export function Faq() {
         <Eyebrow>FAQ</Eyebrow>
 
         <Heading size="md" style={{ margin: '16px 0 42px' }}>
-          Before you come
+          After the summit
         </Heading>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -83,7 +83,8 @@ export function Faq() {
                       {item.contactEmail && (
                         <a href={`mailto:${item.contactEmail}`}>{item.contactEmail}</a>
                       )}
-                      {item.contactEmail && ' for the partnership pack.'}
+                      {item.afterEmail}
+                      {item.link && <a href={item.link.href}>{item.link.label}</a>}
                     </p>
                   </div>
                 )}

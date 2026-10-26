@@ -1,4 +1,4 @@
-import { programme, programmeDraftNote, programmeIsDraft } from '../../content'
+import { programme } from '../../content'
 import type { ProgrammeSlot, SlotEmphasis } from '../../content/types'
 import { site } from '../../shared/config/site'
 import { c, font, gold, lime, t, w } from '../../shared/config/theme'
@@ -28,7 +28,7 @@ const SLOT_STYLES: Record<SlotEmphasis, { background: string; border: string; ti
     },
   }
 
-/** Programme heading and draft caveat. */
+/** Programme heading, with a pointer to the recordings. */
 export function ProgrammeIntro() {
   return (
     <section
@@ -42,14 +42,15 @@ export function ProgrammeIntro() {
         <Eyebrow>PROGRAMME · {site.dateLabel.replace(', ', ' ').toUpperCase()}</Eyebrow>
 
         <Heading size="lg" style={{ margin: '20px 0 0', maxWidth: '18ch' }}>
-          One day, start to finish
+          How the day was planned
         </Heading>
 
-        {programmeIsDraft && (
-          <DraftNote flag="DRAFT" style={{ marginTop: 26 }}>
-            {programmeDraftNote}
-          </DraftNote>
-        )}
+        <DraftNote flag="RECORDED" style={{ marginTop: 26 }}>
+          <span>
+            The published running order. Sessions moved on the day — the recordings
+            follow the order they really ran. <a href="#sessions">Watch them →</a>
+          </span>
+        </DraftNote>
       </Wrap>
     </section>
   )

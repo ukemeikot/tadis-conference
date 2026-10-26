@@ -72,6 +72,8 @@ export type StageSpeaker = {
   side: 'left' | 'right'
   /** Omit while we are still waiting on a photo — the card shows a placeholder. */
   portrait?: Portrait
+  /** `SessionRecording.id` of their talk, when we know where it sits in the streams. */
+  recording?: string
   /** Card border tint. */
   border: 'gold' | 'lime'
 }
@@ -88,15 +90,6 @@ export type SpeakerCard = {
   /** Fireside host cards carry a warm gradient. */
   emphasised?: boolean
   imageHeight: number
-}
-
-export type RevealCard = {
-  id: string
-  label: string
-  caption: string
-  portrait?: Pick<Portrait, 'thumb' | 'objectPosition' | 'background'>
-  /** The final card is an open invitation rather than a person. */
-  invitation?: { title: string; body: string }
 }
 
 /* -------------------------------- programme -------------------------------- */
@@ -116,30 +109,6 @@ export type ProgrammeSlot = {
   emphasis: SlotEmphasis
   /** Parallel rooms, for the master-class block. */
   rooms?: string[]
-}
-
-/* ---------------------------------- venue ---------------------------------- */
-
-export type VenueZone = {
-  number: string
-  name: string
-  detail: string
-  geometry: {
-    left?: string
-    right?: string
-    top?: string
-    bottom?: string
-    width: string
-    height: string
-  }
-  gradient: string
-  border: string
-  numberColor: string
-  numberSize: number
-  /** Resting depth in px. */
-  depth: number
-  /** Depth on hover in px. */
-  liftedDepth: number
 }
 
 /* ------------------------------ gallery / FAQ ------------------------------ */
@@ -218,6 +187,103 @@ export type Testimonial = {
   id: string
   quote: string
   attribution: string
+  /** A second line under the name — role, organisation. */
+  role?: string
+  /** The full message, one entry per paragraph, when there is more than the pull quote. */
+  body?: string[]
+}
+
+/* --------------------------------- recap ---------------------------------- */
+
+/** One of the two YouTube livestreams the day was broadcast on. */
+export type Stream = {
+  id: 'part1' | 'part2'
+  label: string
+  youtubeId: string
+  /** Running time in seconds, as YouTube reports it. */
+  seconds: number
+  /**
+   * Our own still for the card. YouTube serves the same thumbnail for both
+   * streams, so its image cannot tell them apart.
+   */
+  poster: string
+}
+
+/**
+ * A session's place inside a livestream.
+ *
+ * The streams have no chapters, so each `start` was found by reading the
+ * on-screen name cards the broadcast shows before each speaker.
+ */
+export type SessionRecording = {
+  id: string
+  title: string
+  who: string
+  stream: Stream['id']
+  /** Seconds into the stream. */
+  start: number
+  /** Seconds into the stream where it ends, when that is known. */
+  end?: number
+  thumb: string
+  objectPosition?: string
+}
+
+/** One photo in the full gallery, as listed in photoArchive.json. */
+export type ArchivePhoto = {
+  id: number
+  album: 'hall' | 'shoot' | 'carpet'
+  /** Size of the viewer image. */
+  w: number
+  h: number
+}
+
+export type PhotoAlbum = {
+  id: string
+  /** Which photos in the archive came from this album. */
+  archiveKey: ArchivePhoto['album']
+  label: string
+  /** Who shot it, or what is in it. */
+  detail: string
+  url: string
+}
+
+/**
+ * One stop on the memory walk. Signs are chapter markers down the centre line;
+ * everything else alternates left and right of it.
+ */
+export type MemoryItem =
+  | { kind: 'sign'; id: string; label: string; title: string }
+  | {
+      kind: 'photo'
+      id: string
+      side: 'L' | 'R'
+      src: string
+      caption: string
+      meta: string
+      tilt: number
+      objectPosition?: string
+    }
+  | {
+      kind: 'clip'
+      id: string
+      side: 'L' | 'R'
+      src: string
+      poster: string
+      caption: string
+      meta: string
+      tilt: number
+    }
+  | { kind: 'session'; id: string; side: 'L' | 'R'; session: string }
+  | { kind: 'end'; id: string }
+
+export type Letter = {
+  greeting: string
+  paragraphs: string[]
+  closing: string
+  name: string
+  role: string
+  organisation: string
+  portrait: string
 }
 
 export type FaqItem = {
@@ -226,5 +292,9 @@ export type FaqItem = {
   answer: string
   /** Rendered as a mailto link appended to the answer. */
   contactEmail?: string
+  /** Text that follows the mailto link. */
+  afterEmail?: string
+  /** An in-page link appended to the answer. */
+  link?: { href: string; label: string }
   openByDefault?: boolean
 }

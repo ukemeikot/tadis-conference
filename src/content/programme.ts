@@ -12,13 +12,9 @@ import type { ProgrammeSlot } from './types'
  * Attributions come from `speakers.ts` rather than the flier, which bills people
  * by name alone. Same people, fuller billing, and one place to correct a title.
  *
- * Set `programmeIsDraft` to true to show a dashed "DRAFT" caveat above the
- * timeline — useful while the schedule is still moving.
+ * Kept after the summit as the plan of record. Sessions moved on the day; the
+ * recordings and the memory walk follow the order they actually ran.
  */
-export const programmeIsDraft: boolean = false
-
-export const programmeDraftNote =
-  'Running order is still moving; times may shift by a few minutes on the day.'
 
 export const programme: ProgrammeSlot[] = [
   {

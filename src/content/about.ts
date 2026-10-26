@@ -23,7 +23,7 @@ export const aboutPanels: AboutPanel[] = [
     quote:
       '“To lead Africa’s awakening by uniting emerging youth for a self-sustaining continent.”',
     body:
-      'The 2026 edition takes one question seriously: what has to be ' +
+      'The 2026 edition took one question seriously: what has to be ' +
       're-engineered before the continent can carry its own weight? Not the ' +
       'infrastructure first, but the mindset that builds it.',
   },
@@ -35,12 +35,12 @@ export const aboutPanels: AboutPanel[] = [
       '“To forge a generation of visionary African youths who will shape the ' +
       'continent through innovation, purpose, and unity.”',
     body:
-      'A network with chapters, not an audience with tickets. Delegates leave ' +
+      'A network with chapters, not an audience with tickets. Delegates left ' +
       'with a track, a cohort and a commitment they made out loud.',
   },
   {
-    id: 'why-attend',
-    index: '04 / WHY ATTEND',
+    id: 'what-the-day-gave',
+    index: '04 / WHAT THE DAY GAVE',
     tint: 'deep',
     reasons: [
       {
@@ -60,8 +60,8 @@ export const aboutPanels: AboutPanel[] = [
       },
       {
         number: '04',
-        title: 'It costs nothing',
-        body: 'Entry is free by design. Register, show up, bring someone.',
+        title: 'It cost nothing',
+        body: 'Entry was free by design — no ticket price, no delegate fee.',
       },
     ],
     cta: { label: 'Meet the speakers', href: '#speakers' },

@@ -1,6 +1,6 @@
 /**
  * Standing facts about the summit — the things repeated in the hero, the
- * programme header, the registration steps, the contact block and the footer.
+ * programme header, the contact block and the footer.
  * Change the date or venue here and every mention follows.
  */
 export const site = {
@@ -10,13 +10,10 @@ export const site = {
   theme: 'Re-Engineering Africa',
   tagline: 'Dream. Lead. Transform.',
 
-  /** ISO 8601 with the West Africa offset — the opening keynote. */
-  startsAt: '2026-10-03T08:30:00+01:00',
-  /** Doors and accreditation. */
-  doorsOpen: '08:00',
   dateLabel: 'Saturday, 3 October 2026',
-  timeLabel: '8:30 AM',
   shortDateLabel: '3 October 2026',
+  /** The summit has happened — this is how the site dates it. */
+  heldLabel: 'Held 3 October 2026',
 
   venue: {
     name: 'Insight Bible Church',
@@ -31,33 +28,6 @@ export const site = {
     phones: [
       { display: '+234 906 748 3285', tel: '+2349067483285' },
       { display: '+234 907 536 6436', tel: '+2349075366436' },
-    ],
-  },
-
-  entry: {
-    isFree: true,
-    registrationRequired: true,
-    note: 'ENTRY FREE · REGISTRATION COMPULSORY',
-  },
-
-  /**
-   * Registration runs on Luma, so the site never collects delegate details
-   * itself — every "Register free" trigger opens Luma's own flow in an overlay
-   * and Luma issues the ticket and QR code that check-in scans.
-   *
-   * `eventId` is the Luma api_id, found on the event's manage page under
-   * More → Embed Registration Button. `eventUrl` is the plain link, used as the
-   * fallback if the embed script is blocked or fails to load.
-   */
-  luma: {
-    eventId: 'evt-6WLDjZNj4VL6gnh',
-    eventUrl: 'https://luma.com/xpbcg8ks',
-    /** Questions Luma asks, listed on the page so delegates know what to expect. */
-    questions: [
-      'Your name, email and phone number',
-      'Why you want to attend',
-      'Which area of Africa you would re-engineer',
-      'How you heard about Re-Engineering Africa',
     ],
   },
 

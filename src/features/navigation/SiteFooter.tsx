@@ -2,10 +2,11 @@ import { site } from '../../shared/config/site'
 import { c, lime, t, w } from '../../shared/config/theme'
 
 const SUMMIT_LINKS = [
-  { href: '#about', label: 'About' },
+  { href: '#appreciation', label: 'Appreciation' },
+  { href: '#photos', label: 'Photos' },
   { href: '#speakers', label: 'Speakers' },
   { href: '#programme', label: 'Programme' },
-  { href: '#register', label: 'Register' },
+  { href: '#sessions', label: 'Sessions' },
 ]
 
 function ColumnHeading({ children }: { children: React.ReactNode }) {
@@ -114,7 +115,7 @@ export function SiteFooter() {
             {site.venue.city}, {site.venue.state}
           </div>
           <div style={{ fontSize: 15, color: c.lime, fontWeight: 700, marginTop: 4 }}>
-            {site.shortDateLabel} · {site.timeLabel}
+            {site.heldLabel}
           </div>
         </div>
 

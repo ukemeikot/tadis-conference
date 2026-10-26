@@ -449,13 +449,122 @@ a:hover {
   transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Venue floor-plan zones. --z is the resting depth, --zh the hover depth. */
-.zone {
-  transform: translateZ(var(--z));
-  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+/* ---------- recap: recordings, albums, letter ---------- */
+
+/* "Watch the talk" under each stage speaker. */
+.watch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px 11px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(233, 201, 53, 0.4);
+  background: rgba(233, 201, 53, 0.08);
+  color: #e8f1ea;
+  font-size: 14.5px;
+  font-weight: 800;
+  transition: border-color 200ms var(--ease-standard), background 200ms var(--ease-standard);
 }
-.zone:hover {
-  transform: translateZ(var(--zh));
+.watch-link:hover {
+  color: #e8f1ea;
+  border-color: #e9c935;
+  background: rgba(233, 201, 53, 0.16);
+}
+.watch-link-play {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #e1512a;
+  flex: none;
+  position: relative;
+}
+.watch-link-play::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #fff;
+}
+
+/* Reel on the left, both full streams stacked on the right. */
+.sessions-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr);
+  gap: 22px;
+  margin-top: 48px;
+  align-items: start;
+}
+
+.session-card {
+  border: 1px solid rgba(163, 217, 60, 0.24);
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 240ms;
+}
+.session-card:hover {
+  color: #e8f1ea;
+  border-color: rgba(233, 201, 53, 0.6);
+}
+
+.walk-session {
+  transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.walk-session:hover {
+  color: #e8f1ea;
+  transform: translateY(-6px) scale(1.02);
+}
+
+.album-links {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.album-links a {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(163, 217, 60, 0.24);
+  transition: border-color 200ms var(--ease-standard), transform 200ms var(--ease-out);
+}
+.album-links a:hover {
+  border-color: #a3d93c;
+  transform: translateY(-2px);
+}
+
+/* Portrait beside the letter; it stays in view while the letter scrolls. */
+.letter-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  gap: 44px;
+  margin-top: 52px;
+  align-items: start;
+}
+.letter-portrait {
+  margin: 0;
+  position: sticky;
+  top: 104px;
+}
+
+/* The parents' moment: copy beside a large player. */
+.parents-moment {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 44px;
+  align-items: center;
+  margin-top: 90px;
+  padding: 40px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(233, 201, 53, 0.1), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(233, 201, 53, 0.3);
 }
 
 /* ---------- responsive ---------- */
@@ -463,8 +572,6 @@ a:hover {
 @media (max-width: 1100px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
   .grid-5 { grid-template-columns: repeat(3, 1fr) !important; }
-  .register-grid { grid-template-columns: 1fr !important; gap: 44px !important; }
-  .venue-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
   .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
 }
 
@@ -476,6 +583,15 @@ a:hover {
   .grid-3 { grid-template-columns: 1fr !important; }
   .contact-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
   .voices-grid { grid-template-columns: 1fr !important; }
+  .sessions-feature { grid-template-columns: 1fr !important; }
+  .numbers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 14px !important; }
+  .numbers-grid > div { padding: 22px 18px !important; }
+  .next-year { grid-template-columns: 1fr !important; padding: 28px !important; gap: 24px !important; }
+  .album-links { grid-template-columns: 1fr !important; }
+  .letter-paper { padding: 44px 24px 36px !important; }
+  .letter-layout { grid-template-columns: 1fr; gap: 32px; }
+  .letter-portrait { position: static; max-width: 340px; width: 100%; margin: 0 auto; }
+  .parents-moment { grid-template-columns: 1fr; padding: 22px; gap: 26px; margin-top: 64px; }
 
   /* Speaker stage: single column, portrait above the copy, always
      left-aligned regardless of which side it sat on at desktop. The extra
@@ -554,23 +670,11 @@ a:hover {
   }
   .about-progress { display: none !important; }
 
-  /* Flatten the isometric floor plan into a readable top-down one. */
-  .venue-plan {
-    transform: none !important;
-    aspect-ratio: 1.1 !important;
-  }
-  .zone, .zone:hover { transform: none !important; }
-
   .prog-row {
     grid-template-columns: 1fr !important;
     gap: 10px !important;
     padding: 22px !important;
   }
-
-  .countdown-block { flex-direction: column !important; align-items: stretch !important; }
-  .countdown-cells { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; }
-  .countdown-cells > div { min-width: 0 !important; padding: 12px 8px !important; }
-  .countdown-when { margin-left: 0 !important; }
 
   .hero-inner { padding: 72px 20px 84px !important; }
   .footer-grid { grid-template-columns: 1fr !important; }
@@ -583,12 +687,232 @@ a:hover {
     grid-template-columns: 1fr 1fr !important;
     grid-auto-rows: 150px !important;
   }
-  .countdown-cells > div > div:first-child { font-size: 24px !important; }
 }
 
 /* Respect the OS motion preference: the scroll-driven 3D work is
    skipped in JS too, this covers the CSS-driven pieces. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .venue-plan { transform: none !important; }
+}
+
+/* ---------- memory walk ---------- */
+
+/* svh where supported, so a phone's collapsing URL bar does not resize the stage
+   mid-walk and make the cards jump. */
+.walk-viewport {
+  height: 100vh;
+  height: 100svh;
+}
+
+.walk-chapter-label { min-width: 190px; }
+
+@media (max-width: 720px) {
+  /* A phone sees a narrow slice of the path: a far smaller floor texture does. */
+  .walk-floor {
+    width: 1000px !important;
+    height: 2600px !important;
+    margin-left: -500px !important;
+  }
+  .walk-dust:nth-of-type(even) { display: none; }
+}
+
+@media (max-width: 560px) {
+  .walk-chapter { gap: 12px !important; padding: 10px 16px !important; bottom: 18px !important; }
+  .walk-chapter-label { min-width: 0; font-size: 13px !important; }
+  .walk-chapter-bar { display: none; }
+}
+
+/* ---------- full photo gallery ---------- */
+
+.photo-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.photo-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(163, 217, 60, 0.3);
+  background: rgba(163, 217, 60, 0.06);
+  color: #e8f1ea;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms var(--ease-standard), border-color 200ms var(--ease-standard);
+}
+.photo-filter span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: rgba(232, 241, 234, 0.55);
+}
+.photo-filter:hover { border-color: #a3d93c; }
+.photo-filter[aria-selected='true'] {
+  background: #a3d93c;
+  border-color: #a3d93c;
+  color: #04160f;
+}
+.photo-filter[aria-selected='true'] span { color: rgba(4, 22, 15, 0.65); }
+
+.photo-stage {
+  max-width: 1400px;
+  margin: 44px auto 0;
+  padding: 0 28px;
+}
+
+/* The drum: each tile's tilt and depth is written by the scroll handler. */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  perspective: 1200px;
+}
+
+.photo-tile {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0a3d29;
+  cursor: zoom-in;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  outline: 1px solid rgba(255, 255, 255, 0.08);
+  outline-offset: -1px;
+  /* No will-change: 48+ permanent layers made every frame of the page — the
+     memory walk included — pay to composite tiles that were nowhere near view. */
+}
+.photo-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.photo-tile:hover img { transform: scale(1.06); }
+.photo-tile:hover,
+.photo-tile:focus-visible {
+  outline: 2px solid #a3d93c;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55), 0 0 26px rgba(163, 217, 60, 0.3);
+}
+
+.photo-more {
+  padding: 15px 28px;
+  border-radius: 999px;
+  border: 0;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px 72px;
+  background: rgba(3, 15, 10, 0.95);
+  perspective: 1400px;
+  touch-action: pan-y;
+}
+.lightbox-figure { max-width: min(92vw, 1200px); }
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 120px);
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(233, 201, 53, 0.25);
+  background: #0a3d29;
+  animation: lightboxIn 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lightbox-image[data-direction='prev'] { animation-name: lightboxInPrev; }
+@keyframes lightboxIn {
+  from { opacity: 0; transform: rotateY(-24deg) translateZ(-140px) translateX(40px); }
+}
+@keyframes lightboxInPrev {
+  from { opacity: 0; transform: rotateY(24deg) translateZ(-140px) translateX(-40px); }
+}
+
+.lightbox-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(163, 217, 60, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e8f1ea;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 200ms, border-color 200ms;
+}
+.lightbox-btn:hover { background: #a3d93c; border-color: #a3d93c; color: #04160f; }
+.lightbox-close { top: 18px; right: 18px; font-size: 18px; }
+.lightbox-prev { left: 14px; top: 50%; margin-top: -24px; }
+.lightbox-next { right: 14px; top: 50%; margin-top: -24px; }
+
+@media (max-width: 620px) {
+  .photo-stage { padding: 0 12px; }
+  .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .photo-tile { border-radius: 10px; }
+  .lightbox { padding: 64px 12px 24px; }
+  .lightbox-prev, .lightbox-next { top: auto; bottom: 18px; margin-top: 0; }
+  .lightbox-prev { left: calc(50% - 60px); }
+  .lightbox-next { right: calc(50% - 60px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-image { animation: none; }
+}
+
+/* Stops are clickable: a click walks you to them. */
+.walk-stop { cursor: pointer; }
+.walk-step {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid rgba(163, 217, 60, 0.4);
+  background: rgba(163, 217, 60, 0.08);
+  color: #a3d93c;
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 200ms, color 200ms;
+}
+.walk-step:hover { background: #a3d93c; color: #04160f; }
+
+/* Feedback: "Read the full message". */
+.voice-toggle {
+  margin-top: 20px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(233, 201, 53, 0.5);
+  background: transparent;
+  color: #e9c935;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 200ms, color 200ms;
+}
+.voice-toggle:hover { background: #e9c935; color: #04160f; }
+@media (max-width: 620px) {
+  .voice-card { padding: 28px 22px 24px !important; }
 }

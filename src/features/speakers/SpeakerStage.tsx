@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { stageSpeakers } from '../../content'
+import { formatStart, sessionById, stageSpeakers, streamLabel, watchUrl } from '../../content'
 import type { StageSpeaker } from '../../content/types'
 import { c, font, gold, lime, t } from '../../shared/config/theme'
 import { useMediaQuery, useRichMotion } from '../../shared/hooks/useMotion'
@@ -204,6 +204,7 @@ export function SpeakerStage() {
 
 function StageRow({ speaker }: { speaker: StageSpeaker }) {
   const cardOnLeft = speaker.side === 'left'
+  const recording = speaker.recording ? sessionById[speaker.recording] : undefined
   const accentColor = speaker.accent === 'gold' ? c.gold : c.lime
 
   const card = (
@@ -290,36 +291,55 @@ function StageRow({ speaker }: { speaker: StageSpeaker }) {
         </p>
       )}
 
-      <div
-        className="stage-meta"
-        style={{
-          display: 'flex',
-          gap: 26,
-          marginTop: 30,
-          justifyContent: cardOnLeft ? undefined : 'flex-end',
-          fontFamily: font.mono,
-          fontSize: 14,
-          color: t(0.6),
-        }}
-      >
-        {speaker.session.map((detail) => (
-          <div key={detail.value}>
-            {detail.value}
-            {detail.label && (
-              <div
-                style={{
-                  fontFamily: font.sans,
-                  fontSize: 12.5,
-                  letterSpacing: '0.14em',
-                  marginTop: 6,
-                }}
-              >
-                {detail.label}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      {speaker.session.length > 0 && (
+        <div
+          className="stage-meta"
+          style={{
+            display: 'flex',
+            gap: 26,
+            marginTop: 30,
+            justifyContent: cardOnLeft ? undefined : 'flex-end',
+            fontFamily: font.mono,
+            fontSize: 14,
+            color: t(0.6),
+          }}
+        >
+          {speaker.session.map((detail) => (
+            <div key={detail.value}>
+              {detail.value}
+              {detail.label && (
+                <div
+                  style={{
+                    fontFamily: font.sans,
+                    fontSize: 12.5,
+                    letterSpacing: '0.14em',
+                    marginTop: 6,
+                  }}
+                >
+                  {detail.label}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Links into the livestream at the moment this talk starts. */}
+      {recording && (
+        <a
+          href={watchUrl(recording.stream, recording.start)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="watch-link"
+          style={{ marginTop: speaker.session.length > 0 ? 24 : 30 }}
+        >
+          <span aria-hidden className="watch-link-play" />
+          Watch the talk
+          <span style={{ fontFamily: font.mono, fontWeight: 500, color: t(0.6) }}>
+            {streamLabel(recording.stream)} · {formatStart(recording.start)}
+          </span>
+        </a>
+      )}
     </div>
   )
 

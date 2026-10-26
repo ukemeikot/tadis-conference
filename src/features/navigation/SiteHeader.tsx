@@ -1,27 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
-import { navigation } from '../../content'
+import { navigation, spyOnly } from '../../content'
 import { c, lime, t } from '../../shared/config/theme'
 import { useMediaQuery } from '../../shared/hooks/useMotion'
 import { useScrollFrame } from '../../shared/hooks/useScrollFrame'
 import { useScrollSpy } from '../../shared/hooks/useScrollSpy'
-import { LumaCheckoutLink } from '../registration/LumaCheckoutLink'
 
-const NAV_IDS = navigation.map((item) => item.id)
+const SPY_IDS = [...navigation.map((item) => item.id), ...spyOnly]
 
-/** Below this the eight links no longer fit on one row, so they collapse. */
-const MOBILE_QUERY = '(max-width: 860px)'
+/** Below this the links no longer fit on one row, so they collapse. */
+const MOBILE_QUERY = '(max-width: 1080px)'
 
 /**
  * Sticky header: blurred bar, section links that underline as you pass each
  * section, and a hairline read-progress bar across the bottom edge.
  *
- * Under 860px the links collapse behind a hamburger. Eight links plus a CTA
+ * Under 1080px the links collapse behind a hamburger. Eight links plus a CTA
  * cannot sit on one row on a phone, and letting them wrap produced three ragged
  * rows that pushed the bar to a third of the screen.
  */
 export function SiteHeader() {
   const progressRef = useRef<HTMLDivElement>(null)
-  const active = useScrollSpy(NAV_IDS)
+  const active = useScrollSpy(SPY_IDS)
   const isMobile = useMediaQuery(MOBILE_QUERY)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -155,7 +154,8 @@ export function SiteHeader() {
               </a>
             ))}
 
-            <LumaCheckoutLink
+            <a
+              href="#sessions"
               className="cta-lime"
               style={{
                 padding: '11px 20px',
@@ -165,8 +165,8 @@ export function SiteHeader() {
                 boxShadow: '0 8px 24px rgba(163,217,60,0.28)',
               }}
             >
-              Register free
-            </LumaCheckoutLink>
+              Watch the sessions
+            </a>
           </div>
         )}
       </nav>
@@ -203,7 +203,9 @@ export function SiteHeader() {
             ))}
           </ul>
 
-          <LumaCheckoutLink
+          <a
+            href="#sessions"
+            onClick={() => setMenuOpen(false)}
             className="cta-lime"
             style={{
               display: 'block',
@@ -216,8 +218,8 @@ export function SiteHeader() {
               boxShadow: '0 8px 24px rgba(163,217,60,0.28)',
             }}
           >
-            Register free
-          </LumaCheckoutLink>
+            Watch the sessions
+          </a>
         </div>
       )}
 

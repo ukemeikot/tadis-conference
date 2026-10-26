@@ -7,10 +7,6 @@ export type { ButtonProps, ButtonSize, ButtonVariant } from './Button'
 export { Input } from './Input'
 export type { InputProps } from './Input'
 
-export { Select } from './Select'
-export type { SelectOption, SelectProps } from './Select'
-
-export { Checkbox } from './Checkbox'
-export type { CheckboxProps } from './Checkbox'
-
 export { Wrap, Eyebrow, Heading, Lead, DraftNote, Pill } from './layout'
+
+export { PlayDisc } from './PlayDisc'

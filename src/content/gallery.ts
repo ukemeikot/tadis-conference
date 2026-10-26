@@ -1,24 +1,32 @@
-import type { CollageTile, Partner, PartnerSlot, Testimonial } from './types'
+import type { CollageTile, Partner, PartnerSlot } from './types'
 
 /**
- * Gallery photography from the network's two previous gatherings — Dream Circle 1.0
- * and Bold Beginnings. Selected from the full shoots for framing, and for showing
- * the room rather than only the stage.
+ * Gallery photography from all three of the network's gatherings: Dream Circle
+ * 1.0, Bold Beginnings, and TADIS 2026 itself. The TADIS 2026 frames come from
+ * the official albums (see `photoAlbums` in recap.ts) and were picked for range —
+ * the red carpet, the hall, the stage and the people in between.
  *
  * They are arranged as one dense overlapping cluster with the section title set
  * large across the middle of it, so the gallery reads as a single object on the
  * page rather than a grid of thumbnails.
  */
-export const galleryEyebrow = 'GALLERY · DREAM CIRCLE 1.0 & BOLD BEGINNINGS'
+export const galleryEyebrow = 'GALLERY · DREAM CIRCLE 1.0, BOLD BEGINNINGS & TADIS 2026'
 
 /** Set large across the middle of the cluster, one word per line. */
 export const galleryHeadline = ['THE', 'NETWORK', 'SO FAR']
 
 export const galleryNote =
-  'Two gatherings, one room at a time. TADIS 2026 is the next one — and the ' +
-  'biggest yet.'
+  'Three gatherings, one room at a time — and TADIS 2026 was the biggest yet. Its ' +
+  'full albums are linked below; go and find yourself in them.'
 
-const g = (n: number) => `/assets/gallery/${String(n).padStart(2, '0')}.jpg`
+/**
+ * The two sets alternate tile by tile, so neither gathering clumps in one corner
+ * of the continent: odd tiles are TADIS 2026, even tiles the earlier gatherings.
+ */
+const g = (n: number) =>
+  n % 2 === 1
+    ? `/assets/recap/g${String((n + 1) / 2).padStart(2, '0')}.jpg`
+    : `/assets/gallery/${String(n / 2).padStart(2, '0')}.jpg`
 
 /**
  * The pile, laid out to fill the continent silhouette it gets clipped to.
@@ -167,36 +175,3 @@ export const partnerSwaps: ReadonlyArray<readonly [number, number]> = [
   [2, 3],
   [1, 5],
 ]
-
-/**
- * Testimonials — NOT currently shown.
- *
- * These are invented placeholders carried over from the design. The Voices section
- * is unmounted in App.tsx because publishing fabricated quotes as real testimonials
- * is not something the site should do. Replace them with quotes you actually have
- * and mount <Voices /> again.
- */
-export const featuredTestimonial: Testimonial = {
-  id: 'featured',
-  quote:
-    '“I came to listen and left with a plan, a co-founder and a reason to stay ' +
-    'on the continent.”',
-  attribution:
-    'Delegate, TADIS 2025 — placeholder quote, to be replaced with a real testimonial',
-}
-
-export const testimonials: Testimonial[] = [
-  {
-    id: 'voice-1',
-    quote:
-      '“The master class on enterprise changed how I price my work. Placeholder copy.”',
-    attribution: 'Name, organisation — to be confirmed',
-  },
-  {
-    id: 'voice-2',
-    quote:
-      '“Every young person in Akwa Ibom should sit in this hall once. Placeholder copy.”',
-    attribution: 'Name, organisation — to be confirmed',
-  },
-]
-

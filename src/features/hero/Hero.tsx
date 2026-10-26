@@ -1,15 +1,14 @@
 import { useRef } from 'react'
-import { site } from '../../shared/config/site'
+import { fullAddress, site } from '../../shared/config/site'
 import { c, lime, t } from '../../shared/config/theme'
 import { useAfricaGlobe } from '../../shared/hooks/useAfricaGlobe'
 import { useReducedMotion } from '../../shared/hooks/useMotion'
 import { useScrollFrame } from '../../shared/hooks/useScrollFrame'
-import { LumaCheckoutLink } from '../registration/LumaCheckoutLink'
-import { Countdown } from './Countdown'
 
 /**
  * The hero: a Three.js point-cloud Africa turning behind the theme lockup, with
- * the copy drifting upward as you scroll away from it.
+ * the copy drifting upward as you scroll away from it. Since the summit, it leads
+ * into the memory walk and the recordings rather than into registration.
  */
 export function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -105,7 +104,8 @@ export function Hero() {
               boxShadow: `0 0 12px ${c.gold}`,
             }}
           />
-          {site.summitName.toUpperCase()}
+          {site.heldLabel.toUpperCase()} · {site.venue.city.toUpperCase()},{' '}
+          {site.venue.state.toUpperCase()}
         </div>
 
         {/* The theme is set artwork, not type — so the h1 carries the lockup
@@ -132,13 +132,14 @@ export function Hero() {
             color: t(0.78),
           }}
         >
-          One day, one continent-sized conversation. {site.edition} gathers Africa's
-          emerging leaders in {site.venue.city} to rebuild the mindset, the systems
-          and the will behind a self-sustaining continent.
+          On {site.shortDateLabel}, {site.summitName} gathered Africa's emerging
+          leaders in {site.venue.city} to rebuild the mindset, the systems and the will
+          behind a self-sustaining continent. Walk back through the day.
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 36 }}>
-          <LumaCheckoutLink
+          <a
+            href="#memories"
             className="cta-lime"
             style={{
               padding: '16px 30px',
@@ -148,10 +149,10 @@ export function Hero() {
               boxShadow: '0 14px 40px rgba(163,217,60,0.3)',
             }}
           >
-            Register free
-          </LumaCheckoutLink>
+            Take the memory walk
+          </a>
           <a
-            href="#programme"
+            href="#sessions"
             className="cta-ghost"
             style={{
               padding: '16px 30px',
@@ -160,12 +161,67 @@ export function Hero() {
               fontSize: 16,
             }}
           >
-            See the programme
+            Watch the sessions
           </a>
         </div>
 
-        <Countdown />
+        <HeldBadge />
       </div>
     </section>
+  )
+}
+
+/** Where the countdown used to be: the summit has happened, and where. */
+function HeldBadge() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: 22,
+        marginTop: 52,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 14,
+          padding: '16px 22px',
+          borderRadius: 18,
+          background: 'rgba(255,255,255,0.055)',
+          border: `1px solid ${lime(0.22)}`,
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 34,
+            height: 34,
+            flex: 'none',
+            borderRadius: 999,
+            background: c.lime,
+            color: c.inkText,
+            display: 'grid',
+            placeItems: 'center',
+            fontWeight: 800,
+            fontSize: 17,
+            boxShadow: `0 0 22px ${lime(0.5)}`,
+          }}
+        >
+          ✓
+        </span>
+        <div>
+          <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.01em' }}>
+            Held {site.dateLabel}
+          </div>
+          <div style={{ marginTop: 4, fontSize: 14.5, color: t(0.7) }}>{fullAddress}</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 12.5, color: c.gold, fontWeight: 700, letterSpacing: '0.1em' }}>
+        THANK YOU FOR SHOWING UP · SEE YOU AT TADIS 2027
+      </div>
+    </div>
   )
 }

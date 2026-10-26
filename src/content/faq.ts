@@ -3,32 +3,35 @@ import type { FaqItem } from './types'
 
 export const faq: FaqItem[] = [
   {
-    id: 'is-it-free',
-    question: 'Is the summit really free?',
+    id: 'watch',
+    question: 'Where can I watch the sessions?',
     answer:
-      'Yes. Entry is free and there is no delegate fee. Registration is ' +
-      'compulsory because seating is limited.',
+      'Both halves of the day were livestreamed and are on YouTube. Each talk in the ' +
+      'sessions section links straight to the moment it starts. ',
+    link: { href: '#sessions', label: 'Jump to the sessions' },
     openByDefault: true,
   },
   {
-    id: 'arrival-time',
-    question: 'What time should I arrive?',
+    id: 'photos',
+    question: 'Can I get a photo of myself from the day?',
     answer:
-      'Doors and accreditation open at 08:00. The opening keynote starts at ' +
-      '08:30 prompt.',
-  },
-  {
-    id: 'outside-nigeria',
-    question: 'Can I attend from outside Nigeria?',
-    answer:
-      'The summit is an in-person gathering in Uyo. Streaming and diaspora ' +
-      'participation are still being decided — register and we will tell you first.',
-  },
-  {
-    id: 'sponsorship',
-    question: 'Can my organisation sponsor or exhibit?',
-    answer:
-      'Yes — the exhibition alley takes partner and chapter stands. Write to ',
+      'Yes — the red-carpet portraits, the hall and the full shoot are all public, ' +
+      'linked under the gallery. If you cannot find yourself, write to ',
     contactEmail: site.contact.email,
+    afterEmail: ' with the session and rough time, and the media team will send what they have.',
+  },
+  {
+    id: 'next-year',
+    question: 'When is TADIS 2027?',
+    answer:
+      'Dates and venue are being planned. Use the TADIS 2027 box under the sessions ' +
+      'and you will be among the first to hear.',
+  },
+  {
+    id: 'partner',
+    question: 'Can my organisation partner next year?',
+    answer: 'Yes — partner and chapter stands return for 2027. Write to ',
+    contactEmail: site.contact.email,
+    afterEmail: ' for the partnership pack.',
   },
 ]

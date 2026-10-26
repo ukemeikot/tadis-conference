@@ -1,16 +1,16 @@
-import type { RevealCard, SpeakerCard, StageSpeaker } from './types'
+import type { SpeakerCard, StageSpeaker } from './types'
 
 /**
  * Speakers with a full scroll-driven stage row.
  *
  * Order is by standing, not by time of day: Special Guest of Honour, then the
- * opening keynote, then the speakers, and the convener closes. The chronological
- * view lives in the programme section instead.
+ * keynote, then the speakers, and the convener closes. The order things actually
+ * ran in is on the memory walk and in the recordings.
  *
  * Roles and topics are transcribed from the official "SPEAKER REVEAL" fliers,
- * which are the published source of truth. Note the fliers all print 8:30 AM —
- * that is the summit's start time, not each speaker's slot, so `session` is left
- * empty rather than filled with a time that is not really theirs.
+ * which are the published source of truth. No slot times are printed: the
+ * running order moved on the day, so `recording` — where each talk sits in the
+ * livestreams — is the reliable pointer, and `session` is left empty.
  *
  * `side` alternates down the stage, so it has to be re-checked whenever the order
  * changes: the timeline runs down the centre and the portraits sit either side of
@@ -24,16 +24,14 @@ import type { RevealCard, SpeakerCard, StageSpeaker } from './types'
 export const stageSpeakers: StageSpeaker[] = [
   {
     id: 'helen-obareki',
+    recording: 'helen-obareki',
     name: 'Lady Helen Eno Obareki',
     eyebrow: 'SPECIAL GUEST OF HONOUR',
     eyebrowStyle: 'outline',
     accent: 'gold',
     role: 'Coordinator, Office of the First Lady, Akwa Ibom State',
     sessionTitle: '“Re-engineering The Hearts Of The African Girl Child.”',
-    session: [
-      { value: '10:45', label: 'GUEST SESSION' },
-      { value: '45 MIN', label: 'MAIN AUDITORIUM' },
-    ],
+    session: [],
     side: 'left',
     portrait: {
       src: '/assets/speaker-helen-obareki.jpg',
@@ -45,16 +43,14 @@ export const stageSpeakers: StageSpeaker[] = [
   },
   {
     id: 'fela-durotoye',
+    recording: 'fela-durotoye',
     name: 'Fela Durotoye',
     eyebrow: 'KEYNOTE SPEAKER',
     eyebrowStyle: 'solid',
     accent: 'gold',
     role: 'Founder / CEO, Gemstone Group · 🇳🇬 Nigeria',
     sessionTitle: '“Re-engineering the African Mindset, You are not enough”',
-    session: [
-      { value: '08:30', label: 'OPENING PLENARY' },
-      { value: '60 MIN', label: 'MAIN AUDITORIUM' },
-    ],
+    session: [],
     side: 'right',
     portrait: {
       src: '/assets/speaker-fela-durotoye.jpg',
@@ -84,6 +80,7 @@ export const stageSpeakers: StageSpeaker[] = [
   },
   {
     id: 'williams-uchemba',
+    recording: 'williams-uchemba',
     name: 'Williams Uchemba',
     eyebrow: 'SPEAKER',
     eyebrowStyle: 'outline',
@@ -101,6 +98,7 @@ export const stageSpeakers: StageSpeaker[] = [
   },
   {
     id: 'paul-udah',
+    recording: 'paul-udah',
     name: 'Paul Udah',
     eyebrow: 'SPEAKER',
     eyebrowStyle: 'outline',
@@ -119,6 +117,7 @@ export const stageSpeakers: StageSpeaker[] = [
   },
   {
     id: 'aniekan-usoroh',
+    recording: 'aniekan-usoroh',
     name: 'Aniekan Usoroh',
     eyebrow: 'SPEAKER',
     eyebrowStyle: 'outline',
@@ -140,6 +139,7 @@ export const stageSpeakers: StageSpeaker[] = [
   },
   {
     id: 'jasper-ifeanyi',
+    recording: 'jasper-ifeanyi',
     name: 'Jasper Ifeanyi',
     eyebrow: 'SPEAKER · SPONSOR',
     eyebrowStyle: 'outline',
@@ -160,13 +160,16 @@ export const stageSpeakers: StageSpeaker[] = [
   },
   {
     id: 'emanamfon-akpan',
+    recording: 'emanamfon-akpan',
     name: 'Emanamfon Akpan',
     eyebrow: 'CONVENER',
     eyebrowStyle: 'outline',
     accent: 'lime',
     role: 'The African Dream Network',
-    biography: 'Welcome address and the state of the network.',
-    session: [{ value: '10:00', label: 'WELCOME ADDRESS' }],
+    biography:
+      'Closed the day with the charge to the room — and wrote the letter of thanks ' +
+      'near the top of this page.',
+    session: [],
     side: 'right',
     portrait: {
       src: '/assets/speaker-emanamfon-akpan.jpg',
@@ -185,9 +188,8 @@ export const panelTopic =
   '“Building the New Africa(n): The Intersection of Human Capital, Content and ' +
   'Enterprise in Re-Engineering the Continent”'
 
-/** Faculty panel, 15:30, main auditorium. Questions taken from the floor. */
 export const panelNote =
-  'Faculty panel, 15:30, main auditorium. Questions taken from the floor.'
+  'Faculty panel in the main auditorium, with questions taken from the floor.'
 
 const PANEL_IMAGE_HEIGHT = 360
 
@@ -249,7 +251,7 @@ export const firesideTopic =
   '“Power UP — Africa’s Youth Skills, Startups and Wealth Creation.”'
 
 export const firesideNote =
-  'Two chairs, no slides, 30 minutes. Held in the media and interview lounge.'
+  'No slides, just conversation — held on the main stage in the second half of the day.'
 
 /**
  * The four announced fireside chat names, each with the role from their reveal
@@ -309,29 +311,6 @@ export const firesideGuests: SpeakerCard[] = [
       objectPosition: 'center 18%',
     },
     imageHeight: PANEL_IMAGE_HEIGHT,
-  },
-]
-
-/**
- * The horizontal rail of speakers still to be revealed. Each card is a slot
- * waiting on a name, a title and a portrait.
- */
-export const reveals: RevealCard[] = [
-  { id: 'reveal-05', label: 'Reveal 05', caption: 'Name and title to be confirmed' },
-  { id: 'reveal-06', label: 'Reveal 06', caption: 'Name and title to be confirmed' },
-  { id: 'reveal-07', label: 'Reveal 07', caption: 'Name and title to be confirmed' },
-  { id: 'reveal-08', label: 'Reveal 08', caption: 'Name and title to be confirmed' },
-  { id: 'reveal-09', label: 'Reveal 09', caption: 'Name and title to be confirmed' },
-  { id: 'reveal-10', label: 'Reveal 10', caption: 'Name and title to be confirmed' },
-  { id: 'reveal-11', label: 'Reveal 11', caption: 'Name and title to be confirmed' },
-  {
-    id: 'reveal-12',
-    label: 'Reveal 12',
-    caption: 'Awaiting assets',
-    invitation: {
-      title: 'Your speaker here',
-      body: 'Send us the portrait, name, title and topic.',
-    },
   },
 ]
 

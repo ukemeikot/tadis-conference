@@ -4,8 +4,8 @@ import { useScrollFrame } from './useScrollFrame'
 /**
  * Which section the reader is currently in.
  *
- * Matches the design's rule exactly: walk the sections in document order and
- * take the last one whose top has passed 140px from the viewport top. That
+ * The design's rule: of the sections whose top has passed 140px from the
+ * viewport top, the one nearest that line is current. That
  * threshold sits just below the sticky header, so a section counts as "current"
  * once its heading is properly on screen rather than the instant it appears.
  *
@@ -18,11 +18,18 @@ export function useScrollSpy(ids: ReadonlyArray<string>, offset = 140): string |
 
   useScrollFrame(() => {
     let current: string | null = null
+    let nearest = -Infinity
 
+    // The section whose top is closest above the line wins, so `ids` can be in
+    // any order — it need not follow the page.
     for (const id of ids) {
       const element = document.getElementById(id)
       if (!element) continue
-      if (element.getBoundingClientRect().top <= offset) current = id
+      const top = element.getBoundingClientRect().top
+      if (top <= offset && top > nearest) {
+        nearest = top
+        current = id
+      }
     }
 
     if (current !== activeRef.current) {
